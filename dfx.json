@@ -1,0 +1,48 @@
+{
+  "canisters": {
+    "AcneDetection_backend": {
+      "build": "python -m kybra AcneDetection_backend src/AcneDetection_backend/src/main.py src/AcneDetection_backend/AcneDetection_backend.did",
+      "candid": "src/AcneDetection_backend/AcneDetection_backend.did",
+      "gzip": true,
+      "post_install": ".kybra/AcneDetection_backend/post_install.sh",
+      "tech_stack": {
+        "cdk": {
+          "kybra": {}
+        },
+        "language": {
+          "python": {}
+        }
+      },
+      "type": "custom",
+      "wasm": ".kybra/AcneDetection_backend/AcneDetection_backend.wasm"
+    },
+    "AcneDetection_frontend": {
+      "dependencies": [
+        "AcneDetection_backend"
+      ],
+      "source": [
+        "src/AcneDetection_frontend/assets"
+      ],
+      "type": "assets"
+    },
+    "internet_identity": {
+      "candid": "https://github.com/dfinity/internet-identity/releases/latest/download/internet_identity.did",
+      "frontend": {},
+      "remote": {
+        "id": {
+          "ic": "rdmx6-jaaaa-aaaaa-aaadq-cai"
+        }
+      },
+      "type": "custom",
+      "wasm": "https://github.com/dfinity/internet-identity/releases/latest/download/internet_identity_dev.wasm.gz"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}
