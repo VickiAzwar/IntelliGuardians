@@ -1,10 +1,9 @@
 {
   "canisters": {
     "AcneDetection_backend": {
-      "build": "python -m kybra AcneDetection_backend src/AcneDetection_backend/src/main.py src/AcneDetection_backend/AcneDetection_backend.did",
+      "build": "python3 -m kybra AcneDetection_backend src/AcneDetection_backend/src/main.py src/AcneDetection_backend/AcneDetection_backend.did",
       "candid": "src/AcneDetection_backend/AcneDetection_backend.did",
       "gzip": true,
-      "post_install": ".kybra/AcneDetection_backend/post_install.sh",
       "tech_stack": {
         "cdk": {
           "kybra": {}
@@ -14,7 +13,17 @@
         }
       },
       "type": "custom",
-      "wasm": ".kybra/AcneDetection_backend/AcneDetection_backend.wasm"
+      "wasm": ".kybra/AcneDetection_backend/AcneDetection_backend.wasm",
+      "metadata": [
+                {
+                    "name": "candid:service",
+                    "path": "src/AcneDetection_backend/AcneDetection_backend.did"
+                },
+                {
+                    "name": "cdk:name",
+                    "content": "kybra"
+                }
+            ]
     },
     "AcneDetection_frontend": {
       "dependencies": [
