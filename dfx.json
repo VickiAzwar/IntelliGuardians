@@ -21,9 +21,16 @@
         "AcneDetection_backend"
       ],
       "source": [
+<<<<<<< HEAD
         "src/AcneDetection_frontend/assets"
       ],
       "type": "assets"
+=======
+        "src/AcneDetection_frontend/dist"
+      ],
+      "type": "assets",
+      "workspace": "AcneDetection_frontend"
+>>>>>>> 410bf6d (Initial commit.)
     },
     "internet_identity": {
       "candid": "https://github.com/dfinity/internet-identity/releases/latest/download/internet_identity.did",
