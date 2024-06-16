@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { AcneDetection_backend } from 'declarations/AcneDetection_backend';
+import Auth from './Auth/Auth';
 
 function App() {
   const [greeting, setGreeting] = useState('');
+
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -18,6 +20,9 @@ function App() {
       <img src="/logo2.svg" alt="DFINITY logo" />
       <br />
       <br />
+      <div>
+        <Auth />
+      </div>
       <form action="#" onSubmit={handleSubmit}>
         <label htmlFor="name">Enter your name: &nbsp;</label>
         <input id="name" alt="Name" type="text" />

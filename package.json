@@ -1,21 +1,4 @@
 {
-<<<<<<< HEAD
-    "name": "AcneDetection",
-    "type": "module",
-    "scripts": {
-        "start": "npm start --workspaces --if-present",
-        "prebuild": "npm run prebuild --workspaces --if-present",
-        "build": "npm run build --workspaces --if-present",
-        "pretest": "npm run prebuild --workspaces --if-present",
-        "test": "npm test --workspaces --if-present"
-    },
-    "engines": {
-        "node": ">=16.0.0",
-        "npm": ">=7.0.0"
-    },
-    "workspaces": [ ]
-}
-=======
   "engines": {
     "node": ">=16.0.0",
     "npm": ">=7.0.0"
@@ -33,4 +16,3 @@
     "src/AcneDetection_frontend"
   ]
 }
->>>>>>> 410bf6d (Initial commit.)

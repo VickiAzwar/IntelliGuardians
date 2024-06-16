@@ -1,1 +1,12 @@
-service : () -> { greet : (text) -> (text) query }
+type User = record {
+  id : principal;
+  token : int;
+  username : text;
+  created_at : nat64;
+};
+service : () -> {
+  create_users : (text) -> (User);
+  read_user_by_id : (principal) -> (opt User) query;
+  read_users : () -> (vec User) query;
+  whoami : () -> (principal) query;
+}
