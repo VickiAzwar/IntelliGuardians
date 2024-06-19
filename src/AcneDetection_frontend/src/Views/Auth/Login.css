@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.container-login {
+    @apply flex place-content-between items-center justify-center;
+}
+
+.left-content {
+    @apply flex-1  
+}
+
+.left-content img {
+    @apply max-w-full h-screen w-auto rounded-r-3xl
+}
+
+.right-content {
+    @apply flex-1 text-center p-20
+}
+
+.right-content h1 {
+    @apply font-bold text-5xl p-2
+}
+
+.right-content h2 {
+    @apply text-2xl pb-5
+}
+
+.right-content p {
+    @apply p-10 text-lg
+}
+
+
+
+@media only screen and (max-width: 768px) {
+    .container-login {
+       @apply flex flex-col p-10
+    }
+    .left-content {
+        @apply w-screen flex items-center justify-center text-center
+    }
+    .right-content {
+        @apply w-screen p-5
+    }
+    .left-content img {
+        @apply h-40 rounded-3xl
+    }
+    .right-content h1 {
+        @apply text-3xl
+    }
+    .right-content h2 {
+        @apply text-lg 
+    }
+    
+    .right-content p {
+        @apply text-base p-3 pb-10
+    }
+}
