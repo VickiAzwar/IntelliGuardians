@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.item {
+    @apply py-2 px-4 font-semibold shadow-sm rounded-xl text-sm w-full text-left
+}
+
+.itemPrimary {
+    @apply bg-sky-600
+}
+
+.itemSecondary {
+    @apply bg-stone-300
+}
+
+.itemOutline {
+    @apply outline outline-2 outline-offset-2
+}

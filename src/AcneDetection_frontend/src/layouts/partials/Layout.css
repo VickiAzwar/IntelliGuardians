@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.header {
+  @apply flex justify-between items-center p-5 bg-sky-600 text-white overflow-hidden;
+}
+
+.header .btn {
+  @apply flex gap-3 text-xl;
+}
+.profile {
+  @apply flex justify-around;
+}
+
+.profile .leftContent {
+  @apply flex flex-col;
+}
+
+.profile .leftContent h3 {
+    @apply text-lg font-light;
+  }
+
+.profile .leftContent p {
+  @apply text-xs font-light;
+}
+
+@media only screen and (max-width: 768px) {
+  .header .btn {
+    @apply gap-0 text-sm items-center
+  }
+
+  .header .leftContent h3 {
+    @apply text-sm text-wrap
+  }
+}

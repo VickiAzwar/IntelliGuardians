@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.container {
+    @apply p-5 text-center
+}
+
+.container h1 {
+    @apply text-3xl font-bold pb-5
+}
+
+.container p {
+    @apply text-base p-3 font-normal
+}
+
+.detection {
+    @apply flex justify-between gap-4
+}
+
+.image {
+    @apply flex-1 flex justify-center p-4
+}
+
+.image img {
+   @apply w-full max-w-full h-auto rounded-2xl
+}
+
+.input {
+    @apply flex-1 p-5 max-w-xl mx-auto
+}
+
+.input h3 {
+    @apply text-2xl font-bold
+}
+
+.input p {
+    @apply text-base py-3
+}
+
+.button {
+    
+    @apply flex gap-5 p-3 border border-gray-300 rounded-lg
+}
+
+@media only screen and (max-width: 768px) {
+    .container {
+        @apply p-2 hidden
+    }
+.container h1 {
+@apply text-2xl 
+}
+.container p {
+    @apply text-sm  px-0 py-3
+}
+
+.detection {
+    @apply flex-col p-0
+}
+.image {
+    @apply p-0
+}
+.image img {
+    @apply w-screen
+ }
+
+ .input {
+    @apply p-0
+ }
+
+ .input h3 {
+    @apply text-xl
+ }
+
+}
