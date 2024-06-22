@@ -1,9 +1,8 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import Button from "../../component/Button/Button";
-import detectImg from "../../../assets/image/detect_hero2.webp"
+import detectImg from "../../../assets/image/detect_hero2.webp";
+
 import {
-  CameraFilled,
-  UploadOutlined,
   DeleteOutlined,
   EyeInvisibleOutlined,
   MehOutlined,
@@ -12,7 +11,11 @@ import {
 import ItemList from "../../component/ItemList/ItemList";
 import "./Detection.css";
 
+import Camera from "./partials/Camera";
+import Upload  from "./partials/Upload";
+
 const Detection = () => {
+  // const { handleCameraOpen } = useCamera()
 
   const items = [
     { icon: DeleteOutlined, text: "Remove Makeup" },
@@ -21,47 +24,58 @@ const Detection = () => {
     { icon: BulbOutlined, text: "Make sure the lighting is sufficient" },
   ];
 
+  // const props = {
+  //   onRemove: (file) => {
+  //     setFileList([]);
+  //   },
+  //   beforeUpload: (file) => {
+  //     setFileList([file]);
+  //     return false;
+  //   },
+  //   fileList,
+  //   maxCount: 1,
+  //   listType: 'picture',
+  // };
+
+
   return (
     <>
       <div className="container">
         <h1>Smart Acne Detection</h1>
-        <p>
-          Smart Acne Detection: Easily identify your acne type from home,
-          efficiently and affordably. Harness the power of intelligent
-          technology for clear, confident skin.
-        </p>
       </div>
       <div className="detection">
+
+        <div className="input">
+          <h3>Input your image</h3>
+          <p>The input image will not be saved</p>
+          <div className="button">
+            <Camera />
+            <Upload />
+            {/* <Upload {...props}>
+              <Button className="text-base w-40" primary>
+                <UploadOutlined className="pr-2" />
+                Gallery
+              </Button>
+            </Upload> */}
+          </div>
+          <p>For the best result:</p>
+          <ul>
+            {items.map((item, index) => (
+              <li key={index} className="pb-2">
+                <ItemList
+                  icon={item.icon}
+                  text={item.text}
+                  secondary
+                />
+              </li>
+            ))}
+          </ul>
+        </div>
         <div className="image">
           <img
             src={detectImg}
             alt="Detection"
           />
-        </div>
-        <div className="input">
-          <h3>Input your image</h3>
-          <p>The input image will not be saved</p>
-          <div className="button">
-            <Button className="text-base" primary>
-              <CameraFilled className="pr-2" /> Camera
-            </Button>
-            <Button className="text-base" primary>
-              <UploadOutlined className="pr-2" />
-              Gallery
-            </Button>
-          </div>
-          <p>For the best result:</p>
-          <ul>
-              {items.map((items, index) =>(
-                <li key={index} className="pb-2">
-                  <ItemList
-                    icon={items.icon}
-                    text={items.text}
-                    secondary
-                  />
-                </li>
-              ))}
-            </ul> 
         </div>
       </div>
     </>
