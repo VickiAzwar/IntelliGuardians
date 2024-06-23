@@ -8,5 +8,6 @@ service : () -> {
   create_users : (text) -> (User);
   read_user_by_id : (principal) -> (opt User) query;
   read_users : () -> (vec User) query;
+  upload_image : (blob, text) -> (text);
   whoami : () -> (principal) query;
 }

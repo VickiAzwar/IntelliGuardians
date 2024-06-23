@@ -8,17 +8,47 @@ from kybra import (
     query,
     update,
     StableBTreeMap,
-    Vec
+    Vec,
+    blob
 )
+
    
 
 from table_obj import User
 
 
+UPLOAD_FOLDER = 'uploads'
+
 # Initiate data table
 users = StableBTreeMap[Principal, User](
     memory_id=0, max_key_size=38, max_value_size=100_000
 )
+
+@update
+def upload_image(image: blob, filename: str) -> str:
+
+    import os
+    if not os.path.exists(UPLOAD_FOLDER):
+        os.makedirs(UPLOAD_FOLDER)
+    # Tentukan path file
+    file_path = os.path.join(UPLOAD_FOLDER, filename)
+
+    # Debugging: Print file path
+    ic.print("File path: ", file_path)
+
+    try:
+        # Simpan gambar ke file
+        with open(file_path, 'wb') as file:
+            file.write(image)
+        
+        ic.print(f"Image successfully saved at {file_path}")
+        
+        
+        return f"Image successfully uploaded and processed. Prediction result saved at {file_path}"
+    
+    except Exception as e:
+        ic.print(f"Failed to save image: {e}")
+        return f"Failed to upload image: {e}"
 
 @update
 def create_users(user_id: str) -> User:
@@ -58,5 +88,6 @@ def generate_id() -> Principal:
     random_bytes = secrets.token_bytes(29)
 
     return Principal.from_hex(random_bytes.hex())
+
 
 

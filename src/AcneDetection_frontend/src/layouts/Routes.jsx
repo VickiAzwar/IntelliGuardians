@@ -8,6 +8,7 @@ import Login from "../views/auth/Login";
 import Detection from "../views/detection/Detection";
 import Category from "../views/category/Category";
 import Subscribe from "../views/subscribe/Subscribe";
+import Testing from "../views/testing";
 
 function Routes() {
     const router = createBrowserRouter([
@@ -20,6 +21,11 @@ function Routes() {
             path: '/login',
             element: <Login />,
             errorElement: <ErrorPage />,
+        },
+        {
+            path: '/test',
+            element: <Testing />,
+
         },
         {
             path: '/home',

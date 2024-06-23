@@ -51,12 +51,7 @@ const Detection = () => {
           <div className="button">
             <Camera />
             <Upload />
-            {/* <Upload {...props}>
-              <Button className="text-base w-40" primary>
-                <UploadOutlined className="pr-2" />
-                Gallery
-              </Button>
-            </Upload> */}
+            
           </div>
           <p>For the best result:</p>
           <ul>

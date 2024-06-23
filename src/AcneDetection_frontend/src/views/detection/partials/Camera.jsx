@@ -13,7 +13,6 @@ const Camera = () => {
   const [capturedImage, setCapturedImage] = useState(null);
 
   const webcamRef = useRef(null);
-
   const handleCameraOpen = () => {
     setShowWebcam(true);
     setCapturedImage(null);

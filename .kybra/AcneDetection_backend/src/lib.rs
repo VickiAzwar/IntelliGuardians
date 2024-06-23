@@ -2568,6 +2568,27 @@ async fn _cdk_user_defined_whoami() -> (candid::Principal) {
         .await
         .unwrap_or_trap()
 }
+#[ic_cdk_macros::update(name = "upload_image")]
+#[candid::candid_method(update, rename = "upload_image")]
+async fn _cdk_user_defined_upload_image(
+    _cdk_user_defined_image: Vec<u8>,
+    _cdk_user_defined_filename: String,
+) -> (String) {
+    let interpreter = unsafe { INTERPRETER_OPTION.as_mut() }
+        .unwrap_or_trap("SystemError: missing python interpreter");
+    let vm = &interpreter.vm;
+    let params = (
+        _cdk_user_defined_image
+            .try_into_vm_value(vm)
+            .unwrap_or_trap(),
+        _cdk_user_defined_filename
+            .try_into_vm_value(vm)
+            .unwrap_or_trap(),
+    );
+    call_global_python_function("upload_image", params)
+        .await
+        .unwrap_or_trap()
+}
 #[ic_cdk_macros::update(name = "create_users")]
 #[candid::candid_method(update, rename = "create_users")]
 async fn _cdk_user_defined_create_users(_cdk_user_defined_user_id: String) -> (User) {
