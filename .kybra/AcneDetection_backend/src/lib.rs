@@ -2568,6 +2568,21 @@ async fn _cdk_user_defined_whoami() -> (candid::Principal) {
         .await
         .unwrap_or_trap()
 }
+#[ic_cdk_macros::query(name = "is_user_logged_in")]
+#[candid::candid_method(query, rename = "is_user_logged_in")]
+async fn _cdk_user_defined_is_user_logged_in(
+    _cdk_user_defined_expected_principal: candid::Principal,
+) -> (bool) {
+    let interpreter = unsafe { INTERPRETER_OPTION.as_mut() }
+        .unwrap_or_trap("SystemError: missing python interpreter");
+    let vm = &interpreter.vm;
+    let params = (_cdk_user_defined_expected_principal
+        .try_into_vm_value(vm)
+        .unwrap_or_trap(),);
+    call_global_python_function("is_user_logged_in", params)
+        .await
+        .unwrap_or_trap()
+}
 #[ic_cdk_macros::update(name = "upload_image")]
 #[candid::candid_method(update, rename = "upload_image")]
 async fn _cdk_user_defined_upload_image(
@@ -2619,6 +2634,7 @@ struct User {
     token: Box<candid::Int>,
     created_at: Box<u64>,
     username: Box<String>,
+    status: Box<candid::Int>,
 }
 #[derive(
     serde :: Deserialize,

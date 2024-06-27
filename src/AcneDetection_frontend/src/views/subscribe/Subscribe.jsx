@@ -1,9 +1,10 @@
 import React from "react";
+import Title from "../../component/Title/Title";
 
 const Subscribe = () => {
     return (
         <>
-            <h1>HALO Subscribe</h1>
+            <Title text="Subscribe"/>
         </>
     );
   

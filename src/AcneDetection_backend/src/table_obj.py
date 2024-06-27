@@ -10,6 +10,7 @@ class User(Record):
     token: int
     created_at: nat64
     username: str
+    status: int
 
 
 class Detect(Record):

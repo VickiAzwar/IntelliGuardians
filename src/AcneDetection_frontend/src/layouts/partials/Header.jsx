@@ -5,6 +5,7 @@ import {
   MenuFoldOutlined,
 } from "@ant-design/icons";
 import "./Layout.css";
+import getDataUser from "../../helpers/getDataUser";
 
 
 const Header = ({collapsed, toggleDrawer}) => {
@@ -12,6 +13,7 @@ const Header = ({collapsed, toggleDrawer}) => {
   const location = useLocation();
   const [title, setTitle] = useState("");
 
+  const dataUser = getDataUser();
 
   useEffect(() => {
     if (location.pathname === "/" || location.pathname === "/home") {
@@ -26,6 +28,8 @@ const Header = ({collapsed, toggleDrawer}) => {
       setTitle("");
     }
   }, [location.pathname]);
+
+  console.log("dataUser", dataUser);
 
   return (
     <div className="header">
@@ -42,8 +46,10 @@ const Header = ({collapsed, toggleDrawer}) => {
       </div>
       <div className="profile">
         <div className="leftContent">
-          <h3>Arin Cantika</h3>
-          <p>Premium</p>
+        <h3>{dataUser?.username ? dataUser.username : 'User'}</h3>
+          <p>
+          {dataUser?.status !== undefined && dataUser.status !== '0' ? "Premium" : "Free"}
+          </p>
         </div>
         <div className="rightContent">
           <img

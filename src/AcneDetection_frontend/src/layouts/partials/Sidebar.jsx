@@ -4,11 +4,14 @@ import {
   CameraFilled,
   HomeFilled,
   GoldFilled,
-  FrownFilled,
+  LogoutOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu, theme } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
 import Logo from "../../component/Logo/Logo";
+import { AuthClient } from "@dfinity/auth-client";
+// import logout from '../../views/auth/auth'
+
 const { Sider } = Layout;
 
 const Sidebar = ({ collapsed }) => {
@@ -42,9 +45,16 @@ const Sidebar = ({ collapsed }) => {
   const handleMenuClick = (e) => {
     navigate(e.key);
   };
-  const handleLogoutClick = () => {
-    navigate('/logout');
+
+  const handleLogoutClick = async () => {
+    const authClient = await AuthClient.create();
+    await authClient.logout();
+    localStorage.removeItem('session');
+    localStorage.clear();
+    navigate('/login');
+
   };
+  
   return (
     <Sider
       trigger={null}
@@ -67,9 +77,8 @@ const Sidebar = ({ collapsed }) => {
         className="p-2"
         theme="light"
         mode="inline"
-        selectedKeys={[location.pathname]}
         onClick={handleLogoutClick}
-        items={[{key: '/logout', icon: <FrownFilled />, label: 'Login'}]}
+        items={[{key: '/logout', icon: <LogoutOutlined />, label: 'Log Out'}]}
       />
     </Sider>
   );

@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.title {
+    @apply font-bold text-sky-800 font-sans h-10 text-3xl text-left
+}
+
+@media only screen and (max-width: 768px) {
+    .title {
+        @apply font-bold text-sky-800 font-sans h-10 text-xl text-left
+    }
+
+}

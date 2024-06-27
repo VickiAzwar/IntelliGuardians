@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { message, Popconfirm } from "antd";
 import Button from "../../../component/Button/Button";
 import {
@@ -7,12 +7,20 @@ import {
 import CameraModal from "./CameraModal";
 
 
-const Camera = () => {
+const Camera = ({ imageRef, setOriginalImage, buttonRef }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [showWebcam, setShowWebcam] = useState(false);
   const [capturedImage, setCapturedImage] = useState(null);
 
-  const webcamRef = useRef(null);
+  useEffect(() => {
+    if (buttonRef) {
+      buttonRef.current = {
+        click: handleCameraOpen
+      };
+    }
+  }, [buttonRef]);
+
+//   const webcamRef = useRef(null);
   const handleCameraOpen = () => {
     setShowWebcam(true);
     setCapturedImage(null);
@@ -29,6 +37,7 @@ const Camera = () => {
   const handleCapture = (webcamRef) => {
     const imageSrc = webcamRef.current.getScreenshot();
     setCapturedImage(imageSrc);
+    console.log("imageSrc: ", imageSrc);
     setShowWebcam(false);
   };
 
@@ -37,14 +46,30 @@ const Camera = () => {
     setShowWebcam(true);
   };
 
-  const handleUpload = () => {
+  const handleUpload = async () => {
     if (!capturedImage) {
       message.error('No image captured to upload.');
       return;
     }
 
-    // Simulate an upload action
-    message.success('Image uploaded successfully!');
+    try {
+      const response = await fetch(capturedImage);
+      const blob = await response.blob();
+      const imageUrl = URL.createObjectURL(blob);
+
+      // imageRef.current.src = imageUrl;
+      // imageRef.current.style.display = "block"
+
+      // Simulate an upload action
+      console.log('Image URL:', imageUrl);
+      message.success('Image URL created successfully!');
+      handleClose();
+
+      // Cleanup the URL object after use
+      // URL.revokeObjectURL(imageUrl);
+    } catch (error) {
+      message.error(error);
+    }
   };
   return (
     <>
@@ -57,8 +82,8 @@ const Camera = () => {
         cancelText="No"
         placement="top"
       >
-        <Button className="text-base w-40" primary>
-          <CameraFilled className="pr-2" /> Camera
+        <Button className="flex gap-2 items-center justify-center text-base w-40 rounded-full" primary>
+          <CameraFilled /> Camera
         </Button>
       </Popconfirm>
       <CameraModal

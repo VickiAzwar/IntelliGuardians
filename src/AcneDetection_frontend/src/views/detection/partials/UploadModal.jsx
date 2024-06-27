@@ -4,17 +4,20 @@ import { UploadOutlined, InboxOutlined } from '@ant-design/icons';
 
 const { Dragger } = Upload;
 
-const UploadModal = ({ modalOpen, handleClose, handleUpload, fileList, handleFileChange }) => {
+const UploadModal = ({ modalOpen, handleClose, handleUpload, fileList, handleFileChange, setImgData}) => {
   const props = {
     name: 'file',
     multiple: false,
     fileList,
+    maxCount: 1,
     beforeUpload: (file) => {
+      console.log("file awal", file)
       const isImage = file.type === 'image/png' || file.type === 'image/jpeg';
       if (!isImage) {
         message.error('You can only upload PNG or JPG files!');
         return Upload.LIST_IGNORE;
       }
+      setImgData(file);
       return false;
     },
     onChange: handleFileChange,

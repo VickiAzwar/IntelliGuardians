@@ -12,12 +12,10 @@ from kybra import (
     blob
 )
 
-   
-
 from table_obj import User
 
-
 UPLOAD_FOLDER = 'uploads'
+
 
 # Initiate data table
 users = StableBTreeMap[Principal, User](
@@ -26,24 +24,19 @@ users = StableBTreeMap[Principal, User](
 
 @update
 def upload_image(image: blob, filename: str) -> str:
-
     import os
+
     if not os.path.exists(UPLOAD_FOLDER):
         os.makedirs(UPLOAD_FOLDER)
-    # Tentukan path file
-    file_path = os.path.join(UPLOAD_FOLDER, filename)
 
-    # Debugging: Print file path
+    file_path = os.path.join(UPLOAD_FOLDER, filename)
     ic.print("File path: ", file_path)
 
     try:
-        # Simpan gambar ke file
         with open(file_path, 'wb') as file:
             file.write(image)
         
         ic.print(f"Image successfully saved at {file_path}")
-        
-        
         return f"Image successfully uploaded and processed. Prediction result saved at {file_path}"
     
     except Exception as e:
@@ -62,6 +55,7 @@ def create_users(user_id: str) -> User:
     user = User(
         id=principal_id,
         token=5,
+        status=0,
         created_at=ic.time(),
         username=''
     )
@@ -83,6 +77,10 @@ def read_user_by_id(user_id: Principal) -> Opt[User]:
 @query
 def whoami() -> Principal:
     return ic.caller()
+
+@query
+def is_user_logged_in(expected_principal: Principal) -> bool:
+    return ic.caller() == expected_principal
 
 def generate_id() -> Principal:
     random_bytes = secrets.token_bytes(29)

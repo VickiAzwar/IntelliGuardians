@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.detection {
+    @apply flex justify-between items-center p-5;
+}
+
+.divBtn {
+    @apply flex gap-5;
+}
+
+.btnStyle {
+    @apply flex gap-2 text-xl items-center;
+}
+
+@media only screen and (max-width: 768px) {
+    .detection {
+        @apply items-start mx-2;
+    }
+    .divBtn {
+        @apply flex flex-col pt-3;
+    }
+    .btnStyle {
+        @apply text-base;
+    }
+}

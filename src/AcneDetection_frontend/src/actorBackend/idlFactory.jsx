@@ -6,6 +6,7 @@ export const idlFactory = ({ IDL }) => {
       token: IDL.Int,
       username: IDL.Text,
       created_at: IDL.Nat64,
+      status: IDL.Int,
     });
 
     return IDL.Service({
@@ -14,6 +15,7 @@ export const idlFactory = ({ IDL }) => {
       whoami: IDL.Func([], [IDL.Principal], ['query']),
       read_user_by_id: IDL.Func([IDL.Principal], [IDL.Opt(User)], ['query']),
       upload_image: IDL.Func([IDL.Vec(IDL.Nat8), IDL.Text], [IDL.Text], []),
+      is_user_logged_in: IDL.Func([IDL.Principal], [IDL.Bool], ['query']),
     });
   };
   

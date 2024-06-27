@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.searchbar {
+  @apply w-full max-w-sm relative;
+}
+
+.inputSearch {
+  @apply font-medium text-lg font-sans w-full p-3 rounded-full bg-slate-200 text-left;
+}
+
+.btnSearch {
+  @apply absolute right-2 top-1/2 transform -translate-y-1/2 p-2 bg-white rounded-full;
+}
+
+.listSearch {
+  @apply absolute top-12 p-2 bg-slate-200 text-black w-full rounded-xl flex flex-col gap-2 z-10;
+}
+
+@media only screen and (max-width: 768px) {
+  .inputSearch {
+    @apply text-base;
+  }
+}

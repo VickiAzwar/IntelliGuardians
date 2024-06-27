@@ -1,11 +1,13 @@
 type User = record {
   id : principal;
+  status : int;
   token : int;
   username : text;
   created_at : nat64;
 };
 service : () -> {
   create_users : (text) -> (User);
+  is_user_logged_in : (principal) -> (bool) query;
   read_user_by_id : (principal) -> (opt User) query;
   read_users : () -> (vec User) query;
   upload_image : (blob, text) -> (text);

@@ -1,15 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { message, Popconfirm } from "antd";
 import Button from "../../../component/Button/Button";
-import { UploadOutlined } from "@ant-design/icons";
 import UploadModal from "./UploadModal";
-import { createActor } from '../../../actorBackend/createActor';
+import { GrGallery } from "react-icons/gr";
 
-const Upload = () => {
+const Upload = ({imageRef, setOriginalImage, buttonRef}) => {
     const [modalOpen, setModalOpen] = useState(false);
     const [fileList, setFileList] = useState([]);
-    const [uploading, setUploading] = useState(false);
+    const [imgData, setImgData] = useState(false);
 
+    useEffect(() => {
+        if (buttonRef) {
+            buttonRef.current = {
+                click: handleOpenUpload
+            };
+        }
+    }, [buttonRef]);
 
     const handleOpenUpload = () => {
         setModalOpen(true);
@@ -20,43 +26,17 @@ const Upload = () => {
         setFileList([]);
     };
 
-    const convertFileToBlob = (file) => {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                const arrayBuffer = reader.result;
-                const blob = new Uint8Array(arrayBuffer);
-                resolve(blob);
-            };
-            reader.onerror = reject;
-            reader.readAsArrayBuffer(file);
-        });
-    };
-
 
     const handleUpload = async () => {
         if (fileList.length === 0) {
             message.error('No image selected');
             return;
         }
+        imageRef.current.src = imgData;
+        console.log("imageref: ", imgData);
+        imageRef.current.style.display="block";
 
-        const file = fileList[0].originFileObj;
-        const filename = file.name
-        console.log("file: ", file)
-        setUploading(true);
-
-        try {
-            const blob = await convertFileToBlob(file);
-            const actor = await createActor();
-            const result = await actor.upload_image(blob, filename);
-            message.success(result);
-        } catch (error) {
-            console.error("Upload error: ", error);
-            message.error("Failed to upload image");
-        } finally {
-            setUploading(false);
-            setFileList([]); // Reset fileList setelah upload selesai
-        }
+        handleClose();
 
 
     };
@@ -64,8 +44,10 @@ const Upload = () => {
     const handleFileChange = ({ fileList }) => {
         // Limit the number of uploaded files to one
         setFileList(fileList.slice(-1));
+        const url = URL.createObjectURL(imgData);
+        setOriginalImage(url);
+        setImgData(url);
     };
-
 
     return (
         <>
@@ -77,8 +59,9 @@ const Upload = () => {
                 cancelText="No"
                 placement="top"
             >
-                <Button className="text-base w-40" primary>
-                    <UploadOutlined className="pr-2" /> Gallery
+                <Button className="flex gap-2 items-center justify-center text-base w-40 rounded-full" primary>
+                    <GrGallery/> 
+                    Gallery
                 </Button>
             </Popconfirm>
             <UploadModal
@@ -86,6 +69,7 @@ const Upload = () => {
                 handleClose={handleClose}
                 handleUpload={handleUpload}
                 fileList={fileList}
+                setImgData={setImgData}
                 handleFileChange={handleFileChange}
             />
         </>

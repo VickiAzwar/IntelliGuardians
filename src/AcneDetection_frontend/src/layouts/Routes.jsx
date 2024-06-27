@@ -1,6 +1,6 @@
 
 import React from "react";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { Navigate, RouterProvider, createBrowserRouter } from "react-router-dom";
 import ErrorPage from "../views/errorPage/ErrorPage";
 import Home from "../views/home/Home";
 import BaseLayout from "./BaseLayout";
@@ -8,24 +8,27 @@ import Login from "../views/auth/Login";
 import Detection from "../views/detection/Detection";
 import Category from "../views/category/Category";
 import Subscribe from "../views/subscribe/Subscribe";
-import Testing from "../views/testing";
+import ProtectedRoute from "./routes/protectedRoute";
+import MyComponent from "../views/testlogin/test";
+
 
 function Routes() {
     const router = createBrowserRouter([
         {
             path: '/',
-            element: <Home />,
+            element: <Navigate to="/home" replace />, // Redirect to /home
             errorElement: <ErrorPage />,
         },
+
         {
             path: '/login',
-            element: <Login />,
+            element: <Login/> ,
             errorElement: <ErrorPage />,
         },
         {
-            path: '/test',
-            element: <Testing />,
-
+            path: '/haha',
+            element: <p> Berhasil Login</p> ,
+            errorElement: <ErrorPage />,
         },
         {
             path: '/home',
@@ -33,17 +36,30 @@ function Routes() {
             children: [
                 {
                     path: '',
-                    element: <Home />,
+                    element: <ProtectedRoute />, // Use ProtectedRoute
+                    children: [
+                        {
+                            path: '',
+                            element: <Home />,
+                        },
+                    ],
                 },
             ],
         },
+
         {
             path: '/detection',
             element: <BaseLayout />,
             children: [
                 {
                     path: '',
-                    element: <Detection />,
+                    element: <ProtectedRoute />, // Use ProtectedRoute
+                    children: [
+                        {
+                            path: '',
+                            element: <Detection />,
+                        },
+                    ],
                 },
             ],
         },
@@ -53,7 +69,13 @@ function Routes() {
             children: [
                 {
                     path: '',
-                    element: <Category />,
+                    element: <ProtectedRoute />, // Use ProtectedRoute
+                    children: [
+                        {
+                            path: '',
+                            element: <Category />,
+                        },
+                    ],
                 },
             ],
         },
@@ -63,7 +85,13 @@ function Routes() {
             children: [
                 {
                     path: '',
-                    element: <Subscribe />,
+                    element: <ProtectedRoute />, // Use ProtectedRoute
+                    children: [
+                        {
+                            path: '',
+                            element: <Subscribe />,
+                        },
+                    ],
                 },
             ],
         }
