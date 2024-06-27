@@ -29,8 +29,6 @@ const Header = ({collapsed, toggleDrawer}) => {
     }
   }, [location.pathname]);
 
-  console.log("dataUser", dataUser);
-
   return (
     <div className="header">
       

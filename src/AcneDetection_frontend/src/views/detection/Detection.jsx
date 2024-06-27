@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import Button from "../../component/Button/Button";
 import detectImg from "../../../assets/image/detect_hero2.webp";
-
 import {
   DeleteOutlined,
   EyeInvisibleOutlined,
@@ -14,17 +13,16 @@ import { GrGallery } from "react-icons/gr";
 
 import Camera from "./partials/Camera";
 import Upload from "./partials/Upload";
-
 import * as tf from "@tensorflow/tfjs";
 import "@tensorflow/tfjs-backend-webgl"; // set backend to webgl
 import Loader from "../../component/Loading/Loader";
 import detect from "../../utils/detect";
 import Title from "../../component/Title/Title";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import getDataUser from "../../helpers/getDataUser";
+import { Button as BtnAntd } from "antd";
 
 const Detection = () => {
-  // const { handleCameraOpen } = useCamera()
-
   const items = [
     { icon: DeleteOutlined, text: "Remove Makeup" },
     { icon: EyeInvisibleOutlined, text: "Take off the glasses" },
@@ -33,22 +31,19 @@ const Detection = () => {
   ];
 
   const [originalImage, setOriginalImage] = useState(null);
-  const [loading, setLoading] = useState({ loading: true, progress: 0 }); // loading state
+  const [loading, setLoading] = useState({ loading: true, progress: 0 });
   const [isModelLoaded, setIsModelLoaded] = useState(false);
   const [model, setModel] = useState({
     net: null,
     inputShape: [1, 0, 0, 3],
-  }); // init model & input shape
+  });
 
-  // Get Location
-  const location = useLocation();
-  const uploadButtonRef = useRef(null);
+  const dataUser = getDataUser();
 
-  // References
+  const navigate = useNavigate();
+
   const imageRef = useRef(null);
   const canvasRef = useRef(null);
-
-  // model configs
   const modelName = "yolov8n";
 
   // useEffect(() => {
@@ -57,12 +52,11 @@ const Detection = () => {
   //       `${window.location.origin}/${modelName}_web_model/model.json`,
   //       {
   //         onProgress: (fractions) => {
-  //           setLoading({ loading: true, progress: fractions }); // set loading fractions
+  //           setLoading({ loading: true, progress: fractions });
   //         },
   //       }
-  //     ); // load model
+  //     );
 
-  //     // warming up model
   //     const dummyInput = tf.ones(yolov8.inputs[0].shape);
   //     const warmupResults = yolov8.execute(dummyInput);
 
@@ -70,20 +64,18 @@ const Detection = () => {
   //     setModel({
   //       net: yolov8,
   //       inputShape: yolov8.inputs[0].shape,
-  //     }); // set model & input shape
+  //     });
 
-  //     tf.dispose([warmupResults, dummyInput]); // cleanup memory
+  //     tf.dispose([warmupResults, dummyInput]);
   //     setIsModelLoaded(true);
   //   });
   // }, []);
 
-  useEffect(() => {
-    if (location.state?.triggerUpload && isModelLoaded) {
-      setTimeout(() => {
-        uploadButtonRef.current?.click();
-      }, 1000);
-    }
-  }, [location.state, isModelLoaded]);
+  const handlePremiumRedirect = () => {
+    navigate("/subscribe"); // Ganti dengan rute ke menu premium Anda
+  };
+
+
   return (
     <>
       <div className="container">
@@ -92,44 +84,60 @@ const Detection = () => {
             Loading model... {(loading.progress * 100).toFixed(2)}%
           </Loader>
         )} */}
-        <Title text="Smart Acne Detection"/>
+        <Title text="Smart Acne Detection" />
       </div>
-      {imageRef.current && originalImage &&(
+      {imageRef && originalImage && (
         <div className="flex justify-center gap-10 border-solid border-2 p-5 rounded-lg">
           <div className="image-container">
             <h3 className="mb-2 font-bold">Original Image</h3>
             <img
               src={originalImage}
-              className="max-w-full w-20 h-auto"
+              className="w-full max-w-[720px] max-h-[500px] rounded-lg"
               alt="Original Image"
             />
           </div>
-          <div className="relative content">
+          <div className="image-container">
             <h3 className="mb-2 font-bold">Detection Image</h3>
-            <img
-              src="#"
-              ref={imageRef}
-              onLoad={() => detect(imageRef.current, model, canvasRef.current)}
-              alt="Original"
-              className="hidden sm:block w-full max-w-[720px] max-h-[500px] rounded-lg"
-            />
-            <canvas
-              width={model.inputShape[1]}
-              height={model.inputShape[2]}
-              ref={canvasRef}
-              className="absolute top-0 left-0 w-full h-full object-cover rounded-lg"
-            />
+            <div className="relative">
+
+              <img
+                src="#"
+                ref={imageRef}
+                onLoad={() => detect(imageRef.current, model, canvasRef.current)}
+                alt="Original"
+                className="hidden sm:block w-full max-w-[720px] max-h-[500px] rounded-lg"
+              />
+              <canvas
+                width={model.inputShape[1]}
+                height={model.inputShape[2]}
+                ref={canvasRef}
+                className="absolute top-0 left-0 w-full h-full object-fill rounded-lg"
+              />
+            </div>
           </div>
+
         </div>
       )}
       <div className="detection">
         <div className="input">
           <h3>Input your image</h3>
           <p>The input image will not be saved</p>
-          <div className="button">
-            <Camera imageRef={imageRef} setOriginalImage={setOriginalImage}/>
-            <Upload imageRef={imageRef} setOriginalImage={setOriginalImage} buttonRef={uploadButtonRef} />
-          </div>
+          <p className="text-slate-500">Cost <span className="text-sky-600">{dataUser?.token ? dataUser.token : 0}</span> credit's to detection.</p>
+
+          {dataUser?.token > 0 ? (
+            <div className="button">
+              <Camera imageRef={imageRef} setOriginalImage={setOriginalImage} />
+              <Upload imageRef={imageRef} setOriginalImage={setOriginalImage} />
+            </div>
+          ) : (
+            <div className="text-red-600">
+              <p>Insufficient credits for detection. Please purchase more credits.</p>
+              <Button red onClick={handlePremiumRedirect} className="flex gap-2 items-center justify-center text-base w-40 rounded-full">
+                Go to Premium
+              </Button>
+            </div>
+          )}
+
           <p>For the best result:</p>
           <ul>
             {items.map((item, index) => (

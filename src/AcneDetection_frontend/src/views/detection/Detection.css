@@ -3,6 +3,8 @@
 @tailwind utilities;
 
 
+
+
 .container {
     @apply p-5 text-center
 }
@@ -10,6 +12,7 @@
 .container h1 {
     @apply text-3xl font-bold pb-5
 }
+
 
 .container p {
     @apply text-base p-3 font-normal

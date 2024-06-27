@@ -1,26 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { message, Popconfirm } from "antd";
 import Button from "../../../component/Button/Button";
-import {
-  CameraFilled,
-} from "@ant-design/icons";
+import { CameraFilled } from "@ant-design/icons";
 import CameraModal from "./CameraModal";
 
-
-const Camera = ({ imageRef, setOriginalImage, buttonRef }) => {
+const Camera = ({ imageRef, setOriginalImage, disabled }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [showWebcam, setShowWebcam] = useState(false);
   const [capturedImage, setCapturedImage] = useState(null);
 
-  useEffect(() => {
-    if (buttonRef) {
-      buttonRef.current = {
-        click: handleCameraOpen
-      };
-    }
-  }, [buttonRef]);
-
-//   const webcamRef = useRef(null);
   const handleCameraOpen = () => {
     setShowWebcam(true);
     setCapturedImage(null);
@@ -57,13 +45,16 @@ const Camera = ({ imageRef, setOriginalImage, buttonRef }) => {
       const blob = await response.blob();
       const imageUrl = URL.createObjectURL(blob);
 
-      // imageRef.current.src = imageUrl;
-      // imageRef.current.style.display = "block"
+      setOriginalImage(imageUrl);
+
+      imageRef.current.src = imageUrl;
+      imageRef.current.style.display = "block";
 
       // Simulate an upload action
       console.log('Image URL:', imageUrl);
       message.success('Image URL created successfully!');
-      handleClose();
+      handleCloseCamera();
+      
 
       // Cleanup the URL object after use
       // URL.revokeObjectURL(imageUrl);
@@ -71,18 +62,18 @@ const Camera = ({ imageRef, setOriginalImage, buttonRef }) => {
       message.error(error);
     }
   };
+
   return (
     <>
       <Popconfirm
         title="Open Camera"
         description="Do you want to open the camera?"
         onConfirm={handleCameraOpen}
-        // onCancel={() => message.info('Camera open cancelled')}
         okText="Yes"
         cancelText="No"
         placement="top"
       >
-        <Button className="flex gap-2 items-center justify-center text-base w-40 rounded-full" primary>
+        <Button className="flex gap-2 items-center justify-center text-base w-40 rounded-full" primary disabled={disabled}>
           <CameraFilled /> Camera
         </Button>
       </Popconfirm>
@@ -98,6 +89,5 @@ const Camera = ({ imageRef, setOriginalImage, buttonRef }) => {
     </>
   );
 };
-
 
 export default Camera;

@@ -7,6 +7,7 @@ import { FaCamera } from "react-icons/fa";
 import { GrGallery } from "react-icons/gr";
 import Title from "../../component/Title/Title";
 import { useNavigate } from "react-router-dom";
+import getDataUser from "../../helpers/getDataUser";
 
 
 function Home() {
@@ -16,17 +17,21 @@ function Home() {
         navigate('/detection', { state: { triggerUpload: true } });
     }
 
-    const handleCameraClick= () => {
+    const handleCameraClick = () => {
         navigate('/detection', { state: { triggerCamera: true } });
     }
+
+    const dataUser = getDataUser();
 
 
     return (
         <>
             <Title text="Detection" />
+         
             <div className="detection">
+
                 <div className="divBtn">
-                    <Button className="btnStyle rounded-full px-10 py-2 " primary onClick={handleCameraClick}y>
+                    <Button className="btnStyle rounded-full px-10 py-2 " primary onClick={handleCameraClick} y>
                         <FaCamera />
                         Camera
                     </Button>

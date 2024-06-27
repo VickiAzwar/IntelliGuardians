@@ -8,14 +8,14 @@ const CameraModal = ({ modalOpen, handleClose, showWebcam, handleCapture, captur
 
   return (
     <Modal
-      title="Captured Your Image"
+      title="Capture Your Image"
       centered
       open={modalOpen}
       onCancel={handleClose}
       footer={[
-        <div className="flex justify-between w-full">
+        <div className="flex justify-between w-full" key="footer">
           {capturedImage ? (
-            <div className="flex space-x-2">
+            <div className="flex space-x-2" key="actions">
               <Button key="upload" type="primary" onClick={handleUpload}>
                 <UploadOutlined className="pr-2" /> Upload
               </Button>

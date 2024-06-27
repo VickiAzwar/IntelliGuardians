@@ -1,7 +1,7 @@
 import React from "react";
 import styles from './Button.module.css';
 
-const Button = ({ onClick, key, children, className, buttonRef, style, primary, secondary, red }) => {
+const Button = ({ onClick, key, children, className, buttonRef, style, primary, secondary, red, disabled}) => {
   const buttonType = () => {
     if (primary) {
       return styles.btnPrimary;
@@ -9,7 +9,10 @@ const Button = ({ onClick, key, children, className, buttonRef, style, primary, 
       return styles.btnSecondary;
     } else if (red) {
       return styles.btnRed;
-    } else {
+    } else if (disabled) {
+      return styles.disabled;
+    } 
+    else {
       return styles.btn; // Default class if none of the props are set
     }
   };
@@ -20,6 +23,7 @@ const Button = ({ onClick, key, children, className, buttonRef, style, primary, 
       key={key}
       onClick={onClick}
       style={style}
+      disabled={disabled}
       className={`${styles.btn} ${buttonType()} ${className}`}
     >
       {children}

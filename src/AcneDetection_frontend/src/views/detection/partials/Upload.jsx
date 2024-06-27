@@ -4,18 +4,10 @@ import Button from "../../../component/Button/Button";
 import UploadModal from "./UploadModal";
 import { GrGallery } from "react-icons/gr";
 
-const Upload = ({imageRef, setOriginalImage, buttonRef}) => {
+const Upload = ({imageRef, setOriginalImage, disabled}) => {
     const [modalOpen, setModalOpen] = useState(false);
     const [fileList, setFileList] = useState([]);
     const [imgData, setImgData] = useState(false);
-
-    useEffect(() => {
-        if (buttonRef) {
-            buttonRef.current = {
-                click: handleOpenUpload
-            };
-        }
-    }, [buttonRef]);
 
     const handleOpenUpload = () => {
         setModalOpen(true);
@@ -35,10 +27,7 @@ const Upload = ({imageRef, setOriginalImage, buttonRef}) => {
         imageRef.current.src = imgData;
         console.log("imageref: ", imgData);
         imageRef.current.style.display="block";
-
         handleClose();
-
-
     };
 
     const handleFileChange = ({ fileList }) => {
@@ -59,7 +48,7 @@ const Upload = ({imageRef, setOriginalImage, buttonRef}) => {
                 cancelText="No"
                 placement="top"
             >
-                <Button className="flex gap-2 items-center justify-center text-base w-40 rounded-full" primary>
+                <Button className="flex gap-2 items-center justify-center text-base w-40 rounded-full" primary disabled={disabled}>
                     <GrGallery/> 
                     Gallery
                 </Button>
