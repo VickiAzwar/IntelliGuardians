@@ -1,4 +1,4 @@
-@tailwind base;
+/* @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
@@ -23,4 +23,56 @@
   .inputSearch {
     @apply text-base;
   }
+} */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.searchbar {
+  @apply w-full max-w-sm relative;
 }
+
+.inputSearch {
+    @apply font-medium text-lg font-sans w-full p-2 rounded-lg border-2 border-stone-400 bg-slate-200 text-left w-80
+    bg-white;
+}
+
+.btnSearch {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-left: -40px;
+}
+
+.listSearch {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: white;
+    border: 3px solid #ccc;
+    border-radius: 4px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 10;
+}
+
+.listItem {
+    display: block;
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+    text-decoration: none;
+    color: black;
+}
+
+.listItem:hover {
+    background: #f0f0f0;
+}
+
+@media only screen and (max-width: 768px) {
+  .inputSearch {
+    @apply text-base;
+  }
+} 

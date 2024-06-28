@@ -10,24 +10,19 @@ import Category from "../views/category/Category";
 import Subscribe from "../views/subscribe/Subscribe";
 import ProtectedRoute from "./routes/protectedRoute";
 import MyComponent from "../views/testlogin/test";
+import AcneDetail from "../views/category/Acne_Detail.jsx";
 
 
 function Routes() {
     const router = createBrowserRouter([
         {
             path: '/',
-            element: <Navigate to="/home" replace />, // Redirect to /home
+            element: <Home />,
             errorElement: <ErrorPage />,
         },
-
         {
             path: '/login',
-            element: <Login/> ,
-            errorElement: <ErrorPage />,
-        },
-        {
-            path: '/haha',
-            element: <p> Berhasil Login</p> ,
+            element: <Login />,
             errorElement: <ErrorPage />,
         },
         {
@@ -36,30 +31,17 @@ function Routes() {
             children: [
                 {
                     path: '',
-                    element: <ProtectedRoute />, // Use ProtectedRoute
-                    children: [
-                        {
-                            path: '',
-                            element: <Home />,
-                        },
-                    ],
+                    element: <Home />,
                 },
             ],
         },
-
         {
             path: '/detection',
             element: <BaseLayout />,
             children: [
                 {
                     path: '',
-                    element: <ProtectedRoute />, // Use ProtectedRoute
-                    children: [
-                        {
-                            path: '',
-                            element: <Detection />,
-                        },
-                    ],
+                    element: <Detection />,
                 },
             ],
         },
@@ -69,32 +51,139 @@ function Routes() {
             children: [
                 {
                     path: '',
-                    element: <ProtectedRoute />, // Use ProtectedRoute
-                    children: [
-                        {
-                            path: '',
-                            element: <Category />,
-                        },
-                    ],
+                    element: <Category />,
+                },
+                {
+                    path: ':id', // Parameter dinamis untuk id jerawat
+                    element: <AcneDetail />,
                 },
             ],
         },
+        // {
+        //     path: '/category',
+        //     element: <BaseLayout />,
+        //     children: [
+        //         {
+        //             path: '',
+        //             element: <Category />,
+        //         },
+        //     ],
+        // },
         {
             path: '/subscribe',
             element: <BaseLayout />,
             children: [
                 {
                     path: '',
-                    element: <ProtectedRoute />, // Use ProtectedRoute
-                    children: [
-                        {
-                            path: '',
-                            element: <Subscribe />,
-                        },
-                    ],
+                    element: <Subscribe />,
                 },
             ],
-        }
+        },
+        // {
+        //     path: '/',
+        //     element: <Navigate to="/home" replace />, // Redirect to /home
+        //     errorElement: <ErrorPage />,
+        // },
+
+        // {
+        //     path: '/login',
+        //     element: <Login/> ,
+        //     errorElement: <ErrorPage />,
+        // },
+        // {
+        //     path: '/home',
+        //     element: <BaseLayout />,
+        //     children: [
+        //         {
+        //             path: '',
+        //             element: <Home />,
+        //         },
+        //     ],
+        // },
+        // {
+        //     path: '/category',
+        //     element: <BaseLayout />,
+        //     children: [
+        //         {
+        //             path: '',
+        //             element: <Category />,
+        //         },
+        //         {
+        //             path: ':id', // Parameter dinamis untuk id jerawat
+        //             element: <AcneDetail />,
+        //         },
+        //     ],
+        // },
+        // {
+        //     path: '/haha',
+        //     element: <p> Berhasil Login</p> ,
+        //     errorElement: <ErrorPage />,
+        // },
+        // // {
+        // //     path: '/home',
+        // //     element: <BaseLayout />,
+        // //     children: [
+        // //         {
+        // //             path: '',
+        // //             element: <ProtectedRoute />, // Use ProtectedRoute
+        // //             children: [
+        // //                 {
+        // //                     path: '',
+        // //                     element: <Home />,
+        // //                 },
+        // //             ],
+        // //         },
+        // //     ],
+        // // },
+
+        // {
+        //     path: '/detection',
+        //     element: <BaseLayout />,
+        //     children: [
+        //         {
+        //             path: '',
+        //             element: <ProtectedRoute />, // Use ProtectedRoute
+        //             children: [
+        //                 {
+        //                     path: '',
+        //                     element: <Detection />,
+        //                 },
+        //             ],
+        //         },
+        //     ],
+        // },
+        // // {
+        // //     path: '/category',
+        // //     element: <BaseLayout />,
+        // //     children: [
+        // //         {
+        // //             path: '',
+        // //             element: <ProtectedRoute />, // Use ProtectedRoute
+        // //             children: [
+        // //                 {
+        // //                     path: '',
+        // //                     element: <Category />,
+        // //                 },
+        // //             ],
+        // //         },
+        // //     ],
+        // // },
+        // {
+        //     path: '/subscribe',
+        //     element: <BaseLayout />,
+        //     children: [
+        //         {
+        //             path: '',
+        //             element: <ProtectedRoute />, // Use ProtectedRoute
+        //             children: [
+        //                 {
+        //                     path: '',
+        //                     element: <Subscribe />,
+        //                 },
+        //             ],
+        //         },
+        //     ],
+        // }
     ]);
 
     return (

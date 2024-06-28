@@ -46,30 +46,30 @@ const Detection = () => {
   const canvasRef = useRef(null);
   const modelName = "yolov8n";
 
-  // useEffect(() => {
-  //   tf.ready().then(async () => {
-  //     const yolov8 = await tf.loadGraphModel(
-  //       `${window.location.origin}/${modelName}_web_model/model.json`,
-  //       {
-  //         onProgress: (fractions) => {
-  //           setLoading({ loading: true, progress: fractions });
-  //         },
-  //       }
-  //     );
+  useEffect(() => {
+    tf.ready().then(async () => {
+      const yolov8 = await tf.loadGraphModel(
+        `${window.location.origin}/${modelName}_web_model/model.json`,
+        {
+          onProgress: (fractions) => {
+            setLoading({ loading: true, progress: fractions });
+          },
+        }
+      );
 
-  //     const dummyInput = tf.ones(yolov8.inputs[0].shape);
-  //     const warmupResults = yolov8.execute(dummyInput);
+      const dummyInput = tf.ones(yolov8.inputs[0].shape);
+      const warmupResults = yolov8.execute(dummyInput);
 
-  //     setLoading({ loading: false, progress: 1 });
-  //     setModel({
-  //       net: yolov8,
-  //       inputShape: yolov8.inputs[0].shape,
-  //     });
+      setLoading({ loading: false, progress: 1 });
+      setModel({
+        net: yolov8,
+        inputShape: yolov8.inputs[0].shape,
+      });
 
-  //     tf.dispose([warmupResults, dummyInput]);
-  //     setIsModelLoaded(true);
-  //   });
-  // }, []);
+      tf.dispose([warmupResults, dummyInput]);
+      setIsModelLoaded(true);
+    });
+  }, []);
 
   const handlePremiumRedirect = () => {
     navigate("/subscribe"); // Ganti dengan rute ke menu premium Anda
@@ -79,11 +79,11 @@ const Detection = () => {
   return (
     <>
       <div className="container">
-        {/* {loading.loading && (
+        {loading.loading && (
           <Loader>
             Loading model... {(loading.progress * 100).toFixed(2)}%
           </Loader>
-        )} */}
+        )}
         <Title text="Smart Acne Detection" />
       </div>
       {imageRef && originalImage && (
@@ -124,7 +124,12 @@ const Detection = () => {
           <p>The input image will not be saved</p>
           <p className="text-slate-500">Cost <span className="text-sky-600">{dataUser?.token ? dataUser.token : 0}</span> credit's to detection.</p>
 
-          {dataUser?.token > 0 ? (
+          <div className="button">
+              <Camera imageRef={imageRef} setOriginalImage={setOriginalImage} />
+              <Upload imageRef={imageRef} setOriginalImage={setOriginalImage} />
+            </div>
+
+          {/* {dataUser?.token < 0 || ? (
             <div className="button">
               <Camera imageRef={imageRef} setOriginalImage={setOriginalImage} />
               <Upload imageRef={imageRef} setOriginalImage={setOriginalImage} />
@@ -136,7 +141,7 @@ const Detection = () => {
                 Go to Premium
               </Button>
             </div>
-          )}
+          )} */}
 
           <p>For the best result:</p>
           <ul>

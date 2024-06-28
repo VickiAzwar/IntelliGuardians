@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.center-image {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
