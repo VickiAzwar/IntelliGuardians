@@ -1,15 +1,40 @@
+type Orders = record {
+  id : principal;
+  subs_id : principal;
+  user_id : principal;
+  order_date : nat64;
+  expired_date : nat64;
+};
+type SubscribePackage = record {
+  id : principal;
+  period : nat64;
+  name : text;
+  description : text;
+  created_at : nat64;
+  price : int;
+};
 type User = record {
   id : principal;
   status : int;
+  profile_image : opt blob;
   token : int;
   username : text;
   created_at : nat64;
+  email : text;
 };
 service : () -> {
+  check_and_update_user_status : (principal) -> (bool);
   create_users : (text) -> (User);
+  deduct_token : (text) -> (opt User);
+  delete_subscribe_package : (text) -> (bool);
+  insert_order : (principal, principal) -> (opt Orders);
+  insert_subscribe_packages : () -> (text);
+  insert_token : (text) -> (opt User);
   is_user_logged_in : (principal) -> (bool) query;
+  read_orders : () -> (vec Orders) query;
+  read_subscribe_packages : () -> (vec SubscribePackage) query;
   read_user_by_id : (principal) -> (opt User) query;
   read_users : () -> (vec User) query;
-  upload_image : (blob, text) -> (text);
+  update_profile : (text, text, text, opt blob) -> (opt User);
   whoami : () -> (principal) query;
 }

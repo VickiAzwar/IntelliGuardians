@@ -11,39 +11,22 @@ import Subscribe from "../views/subscribe/Subscribe";
 import ProtectedRoute from "./routes/protectedRoute";
 import MyComponent from "../views/testlogin/test";
 import AcneDetail from "../views/category/Acne_Detail.jsx";
+import Profile from "../views/profile/Profile";
 
 
 function Routes() {
     const router = createBrowserRouter([
+
         {
             path: '/',
-            element: <Home />,
+            element: <Navigate to="/home" replace />, // Redirect to /home
             errorElement: <ErrorPage />,
         },
+
         {
             path: '/login',
-            element: <Login />,
+            element: <Login/> ,
             errorElement: <ErrorPage />,
-        },
-        {
-            path: '/home',
-            element: <BaseLayout />,
-            children: [
-                {
-                    path: '',
-                    element: <Home />,
-                },
-            ],
-        },
-        {
-            path: '/detection',
-            element: <BaseLayout />,
-            children: [
-                {
-                    path: '',
-                    element: <Detection />,
-                },
-            ],
         },
         {
             path: '/category',
@@ -59,131 +42,60 @@ function Routes() {
                 },
             ],
         },
-        // {
-        //     path: '/category',
-        //     element: <BaseLayout />,
-        //     children: [
-        //         {
-        //             path: '',
-        //             element: <Category />,
-        //         },
-        //     ],
-        // },
+        {
+            path: '/haha',
+            element: <p> Berhasil Login</p> ,
+            errorElement: <ErrorPage />,
+        },
+        {
+            path: '/home',
+            element: <BaseLayout />,
+            children: [
+                {
+                    path: '',
+                    element: <ProtectedRoute />, // Use ProtectedRoute
+                    children: [
+                        {
+                            path: '',
+                            element: <Home />,
+                        },
+                    ],
+                },
+            ],
+        },
+
+        {
+            path: '/detection',
+            element: <BaseLayout />,
+            children: [
+                {
+                    path: '',
+                    element: <ProtectedRoute />, // Use ProtectedRoute
+                    children: [
+                        {
+                            path: '',
+                            element: <Detection />,
+                        },
+                    ],
+                },
+            ],
+        },
         {
             path: '/subscribe',
             element: <BaseLayout />,
             children: [
                 {
                     path: '',
-                    element: <Subscribe />,
+                    element: <ProtectedRoute />, // Use ProtectedRoute
+                    children: [
+                        {
+                            path: '',
+                            element: <Subscribe />,
+                        },
+                    ],
                 },
             ],
-        },
-        // {
-        //     path: '/',
-        //     element: <Navigate to="/home" replace />, // Redirect to /home
-        //     errorElement: <ErrorPage />,
-        // },
-
-        // {
-        //     path: '/login',
-        //     element: <Login/> ,
-        //     errorElement: <ErrorPage />,
-        // },
-        // {
-        //     path: '/home',
-        //     element: <BaseLayout />,
-        //     children: [
-        //         {
-        //             path: '',
-        //             element: <Home />,
-        //         },
-        //     ],
-        // },
-        // {
-        //     path: '/category',
-        //     element: <BaseLayout />,
-        //     children: [
-        //         {
-        //             path: '',
-        //             element: <Category />,
-        //         },
-        //         {
-        //             path: ':id', // Parameter dinamis untuk id jerawat
-        //             element: <AcneDetail />,
-        //         },
-        //     ],
-        // },
-        // {
-        //     path: '/haha',
-        //     element: <p> Berhasil Login</p> ,
-        //     errorElement: <ErrorPage />,
-        // },
-        // // {
-        // //     path: '/home',
-        // //     element: <BaseLayout />,
-        // //     children: [
-        // //         {
-        // //             path: '',
-        // //             element: <ProtectedRoute />, // Use ProtectedRoute
-        // //             children: [
-        // //                 {
-        // //                     path: '',
-        // //                     element: <Home />,
-        // //                 },
-        // //             ],
-        // //         },
-        // //     ],
-        // // },
-
-        // {
-        //     path: '/detection',
-        //     element: <BaseLayout />,
-        //     children: [
-        //         {
-        //             path: '',
-        //             element: <ProtectedRoute />, // Use ProtectedRoute
-        //             children: [
-        //                 {
-        //                     path: '',
-        //                     element: <Detection />,
-        //                 },
-        //             ],
-        //         },
-        //     ],
-        // },
-        // // {
-        // //     path: '/category',
-        // //     element: <BaseLayout />,
-        // //     children: [
-        // //         {
-        // //             path: '',
-        // //             element: <ProtectedRoute />, // Use ProtectedRoute
-        // //             children: [
-        // //                 {
-        // //                     path: '',
-        // //                     element: <Category />,
-        // //                 },
-        // //             ],
-        // //         },
-        // //     ],
-        // // },
-        // {
-        //     path: '/subscribe',
-        //     element: <BaseLayout />,
-        //     children: [
-        //         {
-        //             path: '',
-        //             element: <ProtectedRoute />, // Use ProtectedRoute
-        //             children: [
-        //                 {
-        //                     path: '',
-        //                     element: <Subscribe />,
-        //                 },
-        //             ],
-        //         },
-        //     ],
-        // }
+        }
     ]);
 
     return (

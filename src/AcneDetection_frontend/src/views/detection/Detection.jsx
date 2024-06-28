@@ -1,44 +1,32 @@
 import React, { useEffect, useRef, useState } from "react";
 import Button from "../../component/Button/Button";
 import detectImg from "../../../assets/image/detect_hero2.webp";
-import {
-  DeleteOutlined,
-  EyeInvisibleOutlined,
-  MehOutlined,
-  BulbOutlined,
-} from "@ant-design/icons";
-import ItemList from "../../component/ItemList/ItemList";
 import "./Detection.css";
-import { GrGallery } from "react-icons/gr";
-
 import Camera from "./partials/Camera";
 import Upload from "./partials/Upload";
 import * as tf from "@tensorflow/tfjs";
 import "@tensorflow/tfjs-backend-webgl"; // set backend to webgl
 import Loader from "../../component/Loading/Loader";
-import detect from "../../utils/detect";
 import Title from "../../component/Title/Title";
 import { useLocation, useNavigate } from "react-router-dom";
 import getDataUser from "../../helpers/getDataUser";
-import { Button as BtnAntd } from "antd";
+import initAuthClient from "../../actorBackend/initAuthClient";
+import HandleUploadToken from "./partials/HandleUploadToken";
+import ListItem from "./partials/ListItem";
+import ImgDetection from "./partials/ImgDetection";
 
 const Detection = () => {
-  const items = [
-    { icon: DeleteOutlined, text: "Remove Makeup" },
-    { icon: EyeInvisibleOutlined, text: "Take off the glasses" },
-    { icon: MehOutlined, text: "Make sure it doesn't block your face" },
-    { icon: BulbOutlined, text: "Make sure the lighting is sufficient" },
-  ];
 
   const [originalImage, setOriginalImage] = useState(null);
   const [loading, setLoading] = useState({ loading: true, progress: 0 });
   const [isModelLoaded, setIsModelLoaded] = useState(false);
+  const [actor, setActor] = useState(null);
   const [model, setModel] = useState({
     net: null,
     inputShape: [1, 0, 0, 3],
   });
 
-  const dataUser = getDataUser();
+  const [dataUser, setDataUser] = useState(null);
 
   const navigate = useNavigate();
 
@@ -71,8 +59,23 @@ const Detection = () => {
     });
   }, []);
 
+  useEffect(() => {
+    const initAuth = async () => {
+      const { authClient, actor } = await initAuthClient();
+      setActor(actor);
+
+      const user = await getDataUser();
+      setDataUser(user);
+    };
+    initAuth();
+  }, []);
+
   const handlePremiumRedirect = () => {
     navigate("/subscribe"); // Ganti dengan rute ke menu premium Anda
+  };
+
+  const handleDetection = async () => {
+    await HandleUploadToken(actor, dataUser, setDataUser, imageRef, model, canvasRef);
   };
 
 
@@ -86,50 +89,20 @@ const Detection = () => {
         )}
         <Title text="Smart Acne Detection" />
       </div>
-      {imageRef && originalImage && (
-        <div className="flex justify-center gap-10 border-solid border-2 p-5 rounded-lg">
-          <div className="image-container">
-            <h3 className="mb-2 font-bold">Original Image</h3>
-            <img
-              src={originalImage}
-              className="w-full max-w-[720px] max-h-[500px] rounded-lg"
-              alt="Original Image"
-            />
-          </div>
-          <div className="image-container">
-            <h3 className="mb-2 font-bold">Detection Image</h3>
-            <div className="relative">
-
-              <img
-                src="#"
-                ref={imageRef}
-                onLoad={() => detect(imageRef.current, model, canvasRef.current)}
-                alt="Original"
-                className="hidden sm:block w-full max-w-[720px] max-h-[500px] rounded-lg"
-              />
-              <canvas
-                width={model.inputShape[1]}
-                height={model.inputShape[2]}
-                ref={canvasRef}
-                className="absolute top-0 left-0 w-full h-full object-fill rounded-lg"
-              />
-            </div>
-          </div>
-
-        </div>
-      )}
+      <ImgDetection
+        imageRef={imageRef}
+        originalImage={originalImage}
+        handleDetection={handleDetection}
+        model={model}
+        canvasRef={canvasRef}
+      />
       <div className="detection">
         <div className="input">
           <h3>Input your image</h3>
           <p>The input image will not be saved</p>
           <p className="text-slate-500">Cost <span className="text-sky-600">{dataUser?.token ? dataUser.token : 0}</span> credit's to detection.</p>
 
-          <div className="button">
-              <Camera imageRef={imageRef} setOriginalImage={setOriginalImage} />
-              <Upload imageRef={imageRef} setOriginalImage={setOriginalImage} />
-            </div>
-
-          {/* {dataUser?.token < 0 || ? (
+          {dataUser?.token > 0 || dataUser?.status === 1 ? (
             <div className="button">
               <Camera imageRef={imageRef} setOriginalImage={setOriginalImage} />
               <Upload imageRef={imageRef} setOriginalImage={setOriginalImage} />
@@ -141,16 +114,10 @@ const Detection = () => {
                 Go to Premium
               </Button>
             </div>
-          )} */}
+          )} 
 
-          <p>For the best result:</p>
-          <ul>
-            {items.map((item, index) => (
-              <li key={index} className="pb-2">
-                <ItemList icon={item.icon} text={item.text} secondary />
-              </li>
-            ))}
-          </ul>
+          <ListItem />
+
         </div>
         <div className="image">
           <img src={detectImg} alt="Detection" />
