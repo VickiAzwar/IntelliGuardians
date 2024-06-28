@@ -59,7 +59,7 @@ const Header = ({ collapsed, toggleDrawer }) => {
           </p>
         </div>
         <div className="rightContent">
-        <Link to="/profile">
+          <Link to="/profile">
             {dataUser?.profile_image ? (
               <img
                 src={`data:image/png;base64,${dataUser.profile_image}`}

@@ -91,6 +91,8 @@ function Routes() {
                 },
             ],
         },
+  
+        
         {
             path: '/subscribe',
             element: <BaseLayout />,
