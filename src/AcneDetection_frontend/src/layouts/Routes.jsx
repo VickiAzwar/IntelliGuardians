@@ -10,6 +10,7 @@ import Category from "../views/category/Category";
 import Subscribe from "../views/subscribe/Subscribe";
 import ProtectedRoute from "./routes/protectedRoute";
 import MyComponent from "../views/testlogin/test";
+import Profile from "../views/profile/Profile";
 
 
 function Routes() {
@@ -23,11 +24,6 @@ function Routes() {
         {
             path: '/login',
             element: <Login/> ,
-            errorElement: <ErrorPage />,
-        },
-        {
-            path: '/haha',
-            element: <p> Berhasil Login</p> ,
             errorElement: <ErrorPage />,
         },
         {
@@ -58,6 +54,22 @@ function Routes() {
                         {
                             path: '',
                             element: <Detection />,
+                        },
+                    ],
+                },
+            ],
+        },
+        {
+            path: '/profile',
+            element: <BaseLayout />,
+            children: [
+                {
+                    path: '',
+                    element: <ProtectedRoute />, // Use ProtectedRoute
+                    children: [
+                        {
+                            path: '',
+                            element: <Profile />,
                         },
                     ],
                 },

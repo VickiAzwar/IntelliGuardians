@@ -1,15 +1,19 @@
 from kybra import (
     Principal,
     nat64,
-    Record
+    Record,
+    blob,
+    Opt
 )
 
 
 class User(Record):
     id: Principal
     token: int
-    created_at: nat64
     username: str
+    email: str
+    profile_image: Opt[blob]
+    created_at: nat64
     status: int
 
 
@@ -30,7 +34,7 @@ class Orders(Record):
 class SubscribePackage(Record):
     id: Principal
     name: str
-    price: nat64
+    price: int
     period: nat64
     description: str
     created_at: nat64
