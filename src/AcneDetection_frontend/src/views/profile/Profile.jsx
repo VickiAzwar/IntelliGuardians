@@ -105,7 +105,7 @@ const Profile = () => {
     return (
         <>
             <Title text="User Profile" />
-            <div className="flex flex-col justify-center items-center">
+            <div className="flex flex-col justify-center items-center border border-gray-300 rounded-lg max-w-full h-auto w-96 px-5 py-10">
                 <div>
                     <ImgCrop rotationSlider>
                         <Upload
@@ -123,8 +123,9 @@ const Profile = () => {
                 </div>
                 <div className="p-2">
                     <Typography.Title level={5}>Username</Typography.Title>
+               
                     <Input
-                        maxLength={30}
+                        
                         value={userData.username}
                         onChange={(e) => setUserData({ ...userData, username: e.target.value })}
                     />

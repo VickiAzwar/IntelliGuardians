@@ -43,11 +43,6 @@ function Routes() {
             ],
         },
         {
-            path: '/haha',
-            element: <p> Berhasil Login</p> ,
-            errorElement: <ErrorPage />,
-        },
-        {
             path: '/home',
             element: <BaseLayout />,
             children: [
@@ -81,7 +76,7 @@ function Routes() {
             ],
         },
         {
-            path: '/subscribe',
+            path: '/profile',
             element: <BaseLayout />,
             children: [
                 {
@@ -90,12 +85,39 @@ function Routes() {
                     children: [
                         {
                             path: '',
-                            element: <Subscribe />,
+                            element: <Profile />,
                         },
                     ],
                 },
             ],
+        },
+        {
+            path: '/subscribe',
+            element: <BaseLayout />,
+            children: [
+                {
+                    path: '',
+                    element: <Subscribe />, // Use ProtectedRoute
+                 
+                },
+            ],
         }
+        // {
+        //     path: '/subscribe',
+        //     element: <BaseLayout />,
+        //     children: [
+        //         {
+        //             path: '',
+        //             element: <ProtectedRoute />, // Use ProtectedRoute
+        //             children: [
+        //                 {
+        //                     path: '',
+        //                     element: <Subscribe />,
+        //                 },
+        //             ],
+        //         },
+        //     ],
+        // }
     ]);
 
     return (

@@ -1,96 +1,3 @@
-<<<<<<< HEAD
-
-import secrets
-
-from kybra import (
-    ic,
-    Opt,
-    Principal,
-    query,
-    update,
-    StableBTreeMap,
-    Vec,
-    blob
-)
-
-from table_obj import User
-
-UPLOAD_FOLDER = 'uploads'
-
-
-# Initiate data table
-users = StableBTreeMap[Principal, User](
-    memory_id=0, max_key_size=38, max_value_size=100_000
-)
-
-@update
-def upload_image(image: blob, filename: str) -> str:
-    import os
-
-    if not os.path.exists(UPLOAD_FOLDER):
-        os.makedirs(UPLOAD_FOLDER)
-
-    file_path = os.path.join(UPLOAD_FOLDER, filename)
-    ic.print("File path: ", file_path)
-
-    try:
-        with open(file_path, 'wb') as file:
-            file.write(image)
-        
-        ic.print(f"Image successfully saved at {file_path}")
-        return f"Image successfully uploaded and processed. Prediction result saved at {file_path}"
-    
-    except Exception as e:
-        ic.print(f"Failed to save image: {e}")
-        return f"Failed to upload image: {e}"
-
-@update
-def create_users(user_id: str) -> User:
-    # user_id = generate_id()
-    principal_id = Principal.from_str(user_id)
-    existing_user = users.get(principal_id)
-
-    if existing_user is not None:
-        return existing_user
-
-    user = User(
-        id=principal_id,
-        token=5,
-        status=0,
-        created_at=ic.time(),
-        username=''
-    )
-    users.insert(principal_id, user)
-
-    return user
-
-@query
-def read_users() -> Vec[User]:
-    return users.values()
-
-@query
-def read_user_by_id(user_id: Principal) -> Opt[User]:
-    user = users.get(user_id)
-    if user is None:
-        return None
-    return user
-
-@query
-def whoami() -> Principal:
-    return ic.caller()
-
-@query
-def is_user_logged_in(expected_principal: Principal) -> bool:
-    return ic.caller() == expected_principal
-
-def generate_id() -> Principal:
-    random_bytes = secrets.token_bytes(29)
-
-    return Principal.from_hex(random_bytes.hex())
-
-
-
-=======
 
 import secrets
 
@@ -222,16 +129,16 @@ def insert_subscribe_packages() -> str:
     
     # Subscription package prices
     prices = {
-        "1 day": 3000,
-        "1 month": 60000,
-        "1 year":  365000,
+        "1 day": 10,
+        "1 month": 100,
+        "1 year":  250,
     }
 
     # Subscription package descriptions
     descriptions = {
-        "1 day": "Access for 1 day",
-        "1 month": "Access for 1 month",
-        "1 year": "Access for 1 year"
+        "1 day": "Experience the best of our content for a day with our daily subscription - perfect for short-term access!",
+        "1 month": "Get the best of our content every month subscribe now for a monthly plan!",
+        "1 year": "Join us for a year of exclusive content and benefits by subscribing annually to our website!"
     }
 
     for period, seconds in periods.items():
@@ -322,4 +229,3 @@ def generate_id() -> Principal:
 
 
 
->>>>>>> 0a3386ca5a5bc0768d8bc375a95448c995962ab8
