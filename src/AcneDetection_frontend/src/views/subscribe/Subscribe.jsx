@@ -6,6 +6,7 @@ import { Modal, message } from 'antd';
 import initAuthClient from '../../actorBackend/initAuthClient';
 import getDataUser from '../../helpers/getDataUser';
 import { Principal } from '@dfinity/principal';
+import cardSubscribe from './partials/cardSubscribe';
 
 const Subscribe = () => {
     const [subscriptions, setSubscriptions] = useState([]);
@@ -68,9 +69,9 @@ const Subscribe = () => {
             <Title text="Subscribe" />
             <div className="container mx-auto p-4">
                 {subscriptions.length > 0 ? (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div className="flex justify-center bg-sky-600">
                         {subscriptions.map(sub => (
-                            <div key={sub.id} className="bg-white p-4 rounded-lg shadow-md">
+                            <div key={sub.id} className="bg-white p-4 rounded-lg shadow-md max-w-full w-80">
                                 <h3 className="font-bold text-xl mb-2">{sub.name}</h3>
                                 <p className="text-gray-700 mb-2">Price: ${sub.price}</p>
 
@@ -110,6 +111,7 @@ const Subscribe = () => {
                     </>
                 )}
             </Modal>
+            <cardSubscribe />
         </>
     );
 };

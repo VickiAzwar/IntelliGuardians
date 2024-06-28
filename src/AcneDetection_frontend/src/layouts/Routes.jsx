@@ -43,11 +43,6 @@ function Routes() {
             ],
         },
         {
-            path: '/haha',
-            element: <p> Berhasil Login</p> ,
-            errorElement: <ErrorPage />,
-        },
-        {
             path: '/home',
             element: <BaseLayout />,
             children: [
@@ -75,6 +70,22 @@ function Routes() {
                         {
                             path: '',
                             element: <Detection />,
+                        },
+                    ],
+                },
+            ],
+        },
+        {
+            path: '/profile',
+            element: <BaseLayout />,
+            children: [
+                {
+                    path: '',
+                    element: <ProtectedRoute />, // Use ProtectedRoute
+                    children: [
+                        {
+                            path: '',
+                            element: <Profile />,
                         },
                     ],
                 },
