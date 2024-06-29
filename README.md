@@ -20,7 +20,7 @@
 </details>
 
 ## Preview
-[![Preview Image][src/AcneDetection_frontend/assets/image/imgdetection.PNG]](https://example.com)
+[![Preview Image](src/AcneDetection_frontend/assets/image/imgdetection.PNG)](https://example.com)
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
