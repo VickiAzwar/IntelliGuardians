@@ -1,4 +1,5 @@
 <a name="readme-top"></a>
+<a name="readme-top"></a>
 
 # [ Smart Acne Detection by IntelliGuardians](https://github.com/VickiAzwar/IntelliGuardians.git)
 "Unlock the power of AI with Smart Detection – the ultimate acne detection app. Harness cutting-edge AI and ICP technology to quickly and efficiently assess your skin's condition."
@@ -10,14 +11,14 @@
 <!-- TABLE OF CONTENTS -->
 <details>
   <summary>Table of Contents</summary>
-  <ol>
+  <ul>
     <li><a href="#about-the-project">About The Project</a></li>
     <li><a href="#feature">Feature</a></li>
-     <li><a href="#tech-stack">Tect Stack</a></li>
+    <li><a href="#tech-stack">Tech Stack</a></li>
     <li><a href="#getting-started">Getting Started</a></li>
     <li><a href="#team">Team</a></li>
     <li><a href="#contact">Contact Information</a></li>
-  </ol>
+  </ul>
 </details>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -56,6 +57,7 @@ To learn more, see the available internet computer documents:
 ## Getting Started
 To run this project in local, you can use the following commands:
 1. Running dfx for create replica
+
 ```
 # Starts the replica, running in the background
 dfx start --background
@@ -77,8 +79,8 @@ nmp run start
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Team
-1. Leader and Backend Developer : [Arin Cantika](https://github.com/arincantikam26/)
-2. Frontend Developer : [Puji Dhiya](https://github.com/Pujidhiyanabila)
+1. Leader and Backend Developer : [Arin Cantika Musi](https://github.com/arincantikam26/)
+2. Frontend Developer : [Puji Dhiya Nabila](https://github.com/Pujidhiyanabila)
 3. AI Developer : [Vicki Azwar](https://github.com/VickiAzwar)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
