@@ -5,7 +5,8 @@ import {
   HomeFilled,
   GoldFilled,
   LogoutOutlined,
-  BulbFilled
+  BulbFilled,
+  ClockCircleFilled
 } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -41,6 +42,11 @@ const Sidebar = ({ collapsed }) => {
       key: "/subscribe",
       icon: <SketchCircleFilled />,
       label: "Subscribe",
+    },
+    {
+      key: "/history",
+      icon: <ClockCircleFilled />,
+      label: "History",
     },
   ];
 

@@ -12,7 +12,7 @@ from kybra import (
     blob
 )
 
-from table_obj import User, SubscribePackage, Orders
+from table_obj import User, SubscribePackage, Orders, Result
 
 UPLOAD_FOLDER = 'uploads'
 
@@ -30,6 +30,11 @@ subscribe_packages = StableBTreeMap[Principal, SubscribePackage](
 # Initiate Order
 orders = StableBTreeMap[Principal, Orders](
     memory_id=2, max_key_size=38, max_value_size=100_000
+)
+
+# Initiate Result
+results = StableBTreeMap[Principal, Result](
+    memory_id=3, max_key_size=38, max_value_size=5_000_000
 )
 
 # Profile

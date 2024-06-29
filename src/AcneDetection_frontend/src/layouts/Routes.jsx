@@ -13,6 +13,7 @@ import AcneDetail from "../views/category/Acne_Detail.jsx";
 import Profile from "../views/profile/Profile";
 import Loaded from "../component/Loaded/Loaded.jsx";
 import Tips from "../views/tips/Tips.jsx"
+import History from "../views/history/History.jsx";
 
 
 function Routes() {
@@ -59,6 +60,22 @@ function Routes() {
                         {
                             path: '',
                             element: <Home />,
+                        },
+                    ],
+                },
+            ],
+        },
+        {
+            path: '/history',
+            element: <BaseLayout />,
+            children: [
+                {
+                    path: '',
+                    element: <ProtectedRoute />, // Use ProtectedRoute
+                    children: [
+                        {
+                            path: '',
+                            element: <History />,
                         },
                     ],
                 },

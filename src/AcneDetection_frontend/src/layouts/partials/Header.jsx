@@ -27,6 +27,9 @@ const Header = ({ collapsed, toggleDrawer }) => {
         case "/category":
           setTitle("Category");
           break;
+        case "/profile":
+          setTitle("Profile");
+          break;
         case "/subscribe":
           setTitle("Subscribe");
           break;

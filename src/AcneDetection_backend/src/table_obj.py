@@ -17,6 +17,21 @@ class User(Record):
     status: int
 
 
+class Result(Record):
+    id: Principal
+    user_id: Principal
+    a1: int
+    a2: int
+    a3: int
+    a4: int
+    a5: int
+    a6: int
+    detect_image: Opt[blob] 
+    created_at: nat64
+
+
+
+
 class Detect(Record):
     id: Principal
     name: str
