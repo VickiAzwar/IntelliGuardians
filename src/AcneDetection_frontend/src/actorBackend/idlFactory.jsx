@@ -43,7 +43,7 @@ export const idlFactory = ({ IDL }) => {
     update_profile: IDL.Func([IDL.Text, IDL.Opt(IDL.Text), IDL.Opt(IDL.Text), IDL.Opt(IDL.Blob)], [IDL.Opt(User)], []),
     update_username_and_email: IDL.Func([IDL.Text, IDL.Text, IDL.Opt(IDL.Text)], [IDL.Opt(User)], []),
     // update_profile_image: IDL.Func([IDL.Text, IDL.Blob], [IDL.Opt(User)], []),
-    update_profile_image: IDL.Func([IDL.Text, IDL.Vec(IDL.Nat8)], [IDL.Opt(User)], []),
+    update_profile_image: IDL.Func([IDL.Principal, IDL.Vec(IDL.Nat8)], [IDL.Opt(User)], []),
 
   });
 };

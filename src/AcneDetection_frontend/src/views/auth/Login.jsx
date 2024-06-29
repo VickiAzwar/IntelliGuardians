@@ -29,6 +29,7 @@ function Login() {
             setActor(actor);
 
             if (user && user !== ANONYMOUS_PRINCIPAL) {
+                console.log("msuk user:", user)
                 const principal = Principal.fromText(user);
                 const check_user = await actor.read_user_by_id(principal);
                 if (check_user[0]!== null || check_user.length !== 0) {
@@ -68,7 +69,6 @@ function Login() {
                 <Button primary className="rounded-full p-3" onClick={btnLogin}>
                     Login Internet Identity
                 </Button>
-                <button></button>
             </div>
         </div>
     );

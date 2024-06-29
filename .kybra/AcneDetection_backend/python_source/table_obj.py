@@ -3,7 +3,7 @@ from kybra import (
     nat64,
     Record,
     blob,
-    Opt, Vec, nat8
+    Opt
 )
 
 

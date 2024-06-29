@@ -2533,7 +2533,7 @@ impl ic_stable_structures::Storable for StableBTreeMap0ValueType {
     }
 }
 impl ic_stable_structures::BoundedStorable for StableBTreeMap0ValueType {
-    const MAX_SIZE: u32 = 100000u32;
+    const MAX_SIZE: u32 = 5000000u32;
     const IS_FIXED_SIZE: bool = false;
 }
 #[derive(
@@ -2976,8 +2976,10 @@ async fn _cdk_user_defined_is_user_logged_in(
 #[ic_cdk_macros::update(name = "update_profile_image")]
 #[candid::candid_method(update, rename = "update_profile_image")]
 async fn _cdk_user_defined_update_profile_image(
-    _cdk_user_defined_user_id: String,
+    _cdk_user_defined_user_id: candid::Principal,
     _cdk_user_defined_image_data: Vec<u8>,
+    _cdk_user_defined_username: String,
+    _cdk_user_defined_email: String,
 ) -> (Option<User>) {
     let interpreter = unsafe { INTERPRETER_OPTION.as_mut() }
         .unwrap_or_trap("SystemError: missing python interpreter");
@@ -2987,6 +2989,12 @@ async fn _cdk_user_defined_update_profile_image(
             .try_into_vm_value(vm)
             .unwrap_or_trap(),
         _cdk_user_defined_image_data
+            .try_into_vm_value(vm)
+            .unwrap_or_trap(),
+        _cdk_user_defined_username
+            .try_into_vm_value(vm)
+            .unwrap_or_trap(),
+        _cdk_user_defined_email
             .try_into_vm_value(vm)
             .unwrap_or_trap(),
     );

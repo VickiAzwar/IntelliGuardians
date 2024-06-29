@@ -19,7 +19,7 @@ UPLOAD_FOLDER = 'uploads'
 
 # Initiate data table
 users = StableBTreeMap[Principal, User](
-    memory_id=0, max_key_size=38, max_value_size=100_000
+    memory_id=0, max_key_size=38, max_value_size=5_000_000
 )
 
 # Initiate subscription packages
@@ -35,20 +35,32 @@ orders = StableBTreeMap[Principal, Orders](
 # Profile
 
 @update
-def update_profile_image(user_id: str, image_data: blob) -> Opt[User]:
+def update_profile_image(user_id: Principal, image_data: blob, username: str, email: str) -> Opt[User]:
     ic.print("masuk update")
-    principal_id = Principal.from_str(user_id)
-    user = users.get(principal_id)
+    user = users.get(user_id)
 
     ic.print("img data: ", blob)
 
     if user is not None:
         ic.print("nasuk2")
-        user.profile_image = image_data
+        if username != '':
+            user["username"] = username
+        if email != '':
+            user["email"] = email
+
+        user["profile_image"] = image_data
         ic.print("nasuk3")
-        users.insert(principal_id, user)
+        users.insert(user_id, user)
         ic.print("nasuk4")
-        return user
+        return User(
+            id=user_id,
+            token=user["token"],
+            username=user["username"],
+            email=user["email"],
+            profile_image=user["profile_image"],
+            created_at=user["created_at"],
+            status=user["status"]
+        )
     ic.print("nasuk5")
     return None
 

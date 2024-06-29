@@ -5,18 +5,12 @@ import getDataUser from "../../helpers/getDataUser";
 import initAuthClient from '../../actorBackend/initAuthClient';
 import { UploadOutlined } from "@ant-design/icons";
 import Button from '../../component/Button/Button';
-import { Principal } from '@dfinity/principal';
 import './Profile.css';
-
+import { Principal } from '@dfinity/principal';
 
 const Profile = () => {
     const [fileList, setFileList] = useState([]);
-    const [userData, setUserData] = useState({
-        id: '',
-        username: '',
-        email: '',
-        profile_image: ''
-    });
+    const [userData, setUserData] = useState(null);  // Default to null
     const [file, setFile] = useState(null);
     const [newProfileImage, setNewProfileImage] = useState(null);
     const [previewVisible, setPreviewVisible] = useState(false);
@@ -26,13 +20,23 @@ const Profile = () => {
     useEffect(() => {
         const fetchUserData = async () => {
             const data = await getDataUser();
-            setUserData(data);
-            if (data.profile_image) {
-                setPreviewImage(`data:image/png;base64,${data.profile_image}`);
-                setPreviewVisible(true);
+            if (data) {
+                setUserData(data);
+                if (data.profile_image) {
+                    setPreviewImage(`data:image/png;base64,${data.profile_image}`);
+                    setPreviewVisible(true);
+                } else {
+                    setPreviewImage('https://cdn-icons-png.flaticon.com/512/149/149071.png'); // Dummy image URL
+                    setPreviewVisible(true);
+                }
             } else {
-                setPreviewImage('https://cdn-icons-png.flaticon.com/512/149/149071.png'); // Dummy image URL
-                setPreviewVisible(true);
+                // Handle the case where userData is null
+                setUserData({
+                    id: '',
+                    username: '',
+                    email: '',
+                    profile_image: ''
+                });
             }
         };
 
@@ -72,15 +76,15 @@ const Profile = () => {
 
         const reader = new FileReader();
         reader.onload = async (e) => {
-           
-            const arrayBuffer = e.target.result;
-            console.log(arrayBuffer);
-            const bytes = new Uint8Array(arrayBuffer);
-
-
             try {
+                const arrayBuffer = e.target.result
+                const bytes = new Uint8Array(arrayBuffer);
+
+                const principal = Principal.fromText(userData.id);
+                console.log("principal: ", principal);
+
                 // Assuming update_profile_image accepts a byte array
-                const response = await actor.update_profile_image(userData.id, bytes);
+                const response = await actor.update_profile_image(principal, bytes);
                 console.log('Upload successful:', response);
                 alert('Image uploaded successfully!');
             } catch (error) {
@@ -106,7 +110,6 @@ const Profile = () => {
             setNewProfileImage(file);
             setFile(file);
 
-
             return false; // Prevent automatic upload
         },
         onChange: handleChange
@@ -119,40 +122,41 @@ const Profile = () => {
                     <img src={previewImage} alt="Image Preview" className='profile-image-preview' />
                 )}
             </div>
-            <div className='profile-details'>
-                <div className='profile-field'>
-                    <Typography.Title level={5} className='profile-field-title'>Username</Typography.Title>
-                    <Input 
-                        placeholder='Username'
-                        value={userData.username} 
-                        onChange={(e) => setUserData({ ...userData, username: e.target.value })}
-                        className='profile-input'
-                    />
+            {userData && (
+                <div className='profile-details'>
+                    <div className='profile-field'>
+                        <Typography.Title level={5} className='profile-field-title'>Username</Typography.Title>
+                        <Input
+                            placeholder='Username'
+                            value={userData.username}
+                            onChange={(e) => setUserData({ ...userData, username: e.target.value })}
+                            className='profile-input'
+                        />
+                    </div>
+                    <div className='profile-field'>
+                        <Typography.Title level={5} className='profile-field-title'>Email</Typography.Title>
+                        <Input
+                            placeholder='Email'
+                            value={userData.email}
+                            onChange={(e) => setUserData({ ...userData, email: e.target.value })}
+                            className='profile-input'
+                        />
+                    </div>
+                    <div className='upload-button'>
+                        <Typography.Title level={5} className='profile-field-title'>Profile Image</Typography.Title>
+                        <Upload {...uploadProps} fileList={fileList}>
+                            <Btn icon={<UploadOutlined />}>Click to Upload</Btn>
+                        </Upload>
+                    </div>
+                    <div className='edit-profile-button'>
+                        <Button primary className="rounded-full max-w-full w-60 pt-3 h-auto mx-auto" onClick={handleUpdateProfile}>
+                            Edit Profile
+                        </Button>
+                    </div>
                 </div>
-                <div className='profile-field'>
-                    <Typography.Title level={5} className='profile-field-title'>Email</Typography.Title>
-                    <Input 
-                        placeholder='Email'
-                        value={userData.email}
-                        onChange={(e) => setUserData({ ...userData, email: e.target.value })}
-                        className='profile-input'
-                    />
-                </div>
-                <div className='upload-button'>
-                    <Typography.Title level={5} className='profile-field-title'>Profile Image</Typography.Title>
-                    <Upload {...uploadProps} fileList={fileList}>
-                        <Btn icon={<UploadOutlined />}>Click to Upload</Btn>
-                    </Upload>
-                </div>
-                <div className='edit-profile-button'>
-                    <Button primary className="rounded-full max-w-full w-60 pt-3 h-auto mx-auto" onClick={handleUpdateProfile}>
-                        Edit Profile
-                    </Button>
-                </div>
-            </div>
+            )}
         </div>
     );
 }
-
 
 export default Profile;

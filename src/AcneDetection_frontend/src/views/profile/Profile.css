@@ -17,6 +17,7 @@
     border-radius: 8px;
     width: 320px;
     height: 320px;
+    max-width: 100%;
     padding: 20px;
     display: flex;
     justify-content: center;

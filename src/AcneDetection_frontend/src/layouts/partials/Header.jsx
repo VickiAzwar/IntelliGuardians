@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { Button } from "antd";
-import {
-  MenuFoldOutlined,
-} from "@ant-design/icons";
+import { MenuFoldOutlined } from "@ant-design/icons";
 import "./Layout.css";
 import getDataUser from "../../helpers/getDataUser";
 
@@ -50,6 +48,17 @@ const Header = ({ collapsed, toggleDrawer }) => {
     fetchDataUser();
   }, []);
 
+  // Fungsi untuk mengonversi Uint8Array ke base64
+  const arrayBufferToBase64 = (buffer) => {
+    let binary = '';
+    let bytes = new Uint8Array(buffer);
+    let len = bytes.byteLength;
+    for (let i = 0; i < len; i++) {
+      binary += String.fromCharCode(bytes[i]);
+    }
+    return window.btoa(binary);
+  };
+
   return (
     <div className="header">
       <div className="btn">
@@ -70,15 +79,15 @@ const Header = ({ collapsed, toggleDrawer }) => {
           <Link to="/profile">
             {dataUser?.profile_image ? (
               <img
-                src={`data:image/png;base64,${dataUser.profile_image}`}
+                src={`data:image/png;base64,${arrayBufferToBase64(dataUser.profile_image)}`}
                 className="max-w-full h-10 w-auto pl-5"
-                alt=""
+                alt="Profile"
               />
             ) : (
               <img
                 src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
                 className="max-w-full h-10 w-auto pl-5"
-                alt=""
+                alt="Default Profile"
               />
             )}
           </Link>

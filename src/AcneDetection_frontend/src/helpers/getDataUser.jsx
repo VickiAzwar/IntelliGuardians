@@ -23,8 +23,8 @@ const getDataUser = async () => {
           id: userData.id.toString(),
           status: userData.status.toString(),
           token: userData.token.toString(),
-          username: userData.username,
-          email: userData.email,
+          username: userData.username || '',
+          email: userData.email || '',
           profile_image: profile_image ? btoa(String.fromCharCode(...profile_image)) : null,
           created_at: userData.created_at
         };

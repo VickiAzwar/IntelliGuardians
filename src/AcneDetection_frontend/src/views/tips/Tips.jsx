@@ -23,7 +23,7 @@ const Tips = () => {
 
   return (
     <>
-      <Title text="Skin Cate Tips and Tricks" />
+      <Title text="Skin Care Tips and Tricks" />
       <div className="itemContain">
         <div className="cardContain">
           {DataTips.map((data) => (

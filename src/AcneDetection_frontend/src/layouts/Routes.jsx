@@ -9,7 +9,6 @@ import Detection from "../views/detection/Detection";
 import Category from "../views/category/Category";
 import Subscribe from "../views/subscribe/Subscribe";
 import ProtectedRoute from "./routes/protectedRoute";
-import MyComponent from "../views/testlogin/test";
 import AcneDetail from "../views/category/Acne_Detail.jsx";
 import Profile from "../views/profile/Profile";
 import Loaded from "../component/Loaded/Loaded.jsx";

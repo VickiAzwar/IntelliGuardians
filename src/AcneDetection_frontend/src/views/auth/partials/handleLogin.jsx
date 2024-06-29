@@ -28,15 +28,18 @@ const handleLogin = async (authClient, actor, navigate) => {
         const identity = authClient.getIdentity().getPrincipal();
         const principal = identity.toString();
 
+
         const check_user = await actor.read_user_by_id(identity);
 
         let users;
         if ((check_user.length === 0 || check_user[0] === null) && principal !== ANONYMOUS_PRINCIPAL) {
+            console.log("test: ", check_user)
             users = await actor.create_users(principal);
 
         } else {
             users= check_user[0];
         }
+        console.log("users", users)
 
         const session = {
             name: users.name,
