@@ -6,8 +6,6 @@
 
 <br />
 
-<ul> 
-
 <!-- TABLE OF CONTENTS -->
 <details>
   <summary>Table of Contents</summary>
@@ -20,6 +18,10 @@
     <li><a href="#contact">Contact Information</a></li>
   </ul>
 </details>
+
+## Preview
+[![Preview Image][src/AcneDetection_frontend/assets/image/imgdetection.PNG]](https://example.com)
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
