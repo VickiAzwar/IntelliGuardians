@@ -16,16 +16,18 @@ const getDataUser = async () => {
 
       const check_user = await actor.read_user_by_id(principal);
 
+
       if (check_user[0] !== null || check_user.length !== 0) {
         const userData = check_user[0];
-        const profile_image = userData.profile_image ? new Uint8Array(userData.profile_image) : null;
+        const profile_image = userData.profile_image ? new Uint8Array(userData.profile_image[0]) : null;
         return {
           id: userData.id.toString(),
           status: userData.status.toString(),
           token: userData.token.toString(),
           username: userData.username || '',
           email: userData.email || '',
-          profile_image: profile_image ? btoa(String.fromCharCode(...profile_image)) : null,
+          // profile_image: profile_image ? btoa(String.fromCharCode(...profile_image)) : null,
+          profile_image: profile_image ? URL.createObjectURL(new Blob([profile_image.buffer], { type: 'image/png' })) : null,
           created_at: userData.created_at
         };
       }

@@ -2980,7 +2980,7 @@ async fn _cdk_user_defined_update_profile_image(
     _cdk_user_defined_image_data: Vec<u8>,
     _cdk_user_defined_username: String,
     _cdk_user_defined_email: String,
-) -> (Option<User>) {
+) -> (bool) {
     let interpreter = unsafe { INTERPRETER_OPTION.as_mut() }
         .unwrap_or_trap("SystemError: missing python interpreter");
     let vm = &interpreter.vm;

@@ -12,21 +12,21 @@ const AcneDetail = () => {
     }
 
     return (
-        <div className="container mt-2">
-            <div className="row">
-                <div className="col-md-4 text-center">
-                    <img 
-                        src={acne.image} 
-                        alt={acne.name} 
-                        className="img-fluid rounded center-image" 
+        <>
+            <div className="flex flex-col justify-center">
+                <div className="flex-1 text-center p-0 top-0">
+                    <img
+                        src={acne.image}
+                        alt={acne.name}
+                        className="img-fluid rounded center-image"
                         style={{
                             width: '361px',
                             height: '361px',
                             borderRadius: '25px',
-                        }} 
+                        }}
                     />
                 </div>
-                <div className="col-md-8 bg-neutral-50 p-2 text-left rounded-lg shadow-md cursor-pointer">
+                <div className="flex-1 bg-neutral-50 mx-10 p-3 text-left border-2 rounded-lg max-w-full shadow-md cursor-pointer">
                     <h1 className="font-bold text-2xl text-sky-800 m-3 font-sans">{acne.name}</h1>
                     <p className='text-lg text-sky-800 font-sans'>{acne.about}</p>
                     <h2 className="font-bold text-xl text-sky-800 mt-4 m-3 font-sans">Penyebab?</h2>
@@ -36,7 +36,9 @@ const AcneDetail = () => {
                     <p className="text-xl text-sky-800 font-sans mt-4"><strong>Sumber Informasi : </strong> {acne.info}</p>
                 </div>
             </div>
-        </div>
+
+        </>
+
     );
 };
 

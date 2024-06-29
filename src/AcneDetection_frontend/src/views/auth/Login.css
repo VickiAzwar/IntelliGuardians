@@ -7,7 +7,7 @@
 }
 
 .left-content {
-    @apply flex-1 h-screen;
+    @apply flex-1 max-w-full h-screen;
 }
 
 .left-content img {
@@ -15,7 +15,7 @@
 }
 
 .right-content {
-    @apply flex-1 flex-col text-center p-20;
+    @apply flex-1 flex-col text-center p-20 ;
 }
 
 .right-content h1 {
@@ -37,7 +37,7 @@
        @apply flex flex-col p-10
     }
     .left-content {
-        @apply w-screen flex items-center justify-center text-center
+        @apply w-screen flex items-center justify-center text-center;
     }
     .right-content {
         @apply w-screen p-5

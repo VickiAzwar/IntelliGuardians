@@ -75,12 +75,12 @@ const Header = ({ collapsed, toggleDrawer }) => {
           <h3>{dataUser?.username || 'User'}</h3>
           <p>{dataUser?.status !== undefined && dataUser.status !== '0' ? "Premium" : "Free"}</p>
         </div>
-        <div className="rightContent">
+        <div className="rightContent mx-3">
           <Link to="/profile">
             {dataUser?.profile_image ? (
               <img
-                src={`data:image/png;base64,${arrayBufferToBase64(dataUser.profile_image)}`}
-                className="max-w-full h-10 w-auto pl-5"
+                src={dataUser.profile_image}
+                className=""
                 alt="Profile"
               />
             ) : (

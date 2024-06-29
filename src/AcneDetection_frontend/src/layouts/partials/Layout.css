@@ -25,6 +25,17 @@
   @apply text-xs font-light;
 }
 
+.profile .rightContent {
+  @apply bg-white rounded-full w-10 h-auto;
+}
+
+.profile .rightContent img{
+  @apply w-full h-full object-cover rounded-full;
+}
+
+
+
+
 @media only screen and (max-width: 768px) {
   .header .btn {
     @apply gap-0 text-sm items-center

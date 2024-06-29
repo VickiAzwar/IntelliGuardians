@@ -17,29 +17,28 @@ const Profile = () => {
     const [previewImage, setPreviewImage] = useState('');
     const [actor, setActor] = useState(null);
 
-    useEffect(() => {
-        const fetchUserData = async () => {
-            const data = await getDataUser();
-            if (data) {
-                setUserData(data);
-                if (data.profile_image) {
-                    setPreviewImage(`data:image/png;base64,${data.profile_image}`);
-                    setPreviewVisible(true);
-                } else {
-                    setPreviewImage('https://cdn-icons-png.flaticon.com/512/149/149071.png'); // Dummy image URL
-                    setPreviewVisible(true);
-                }
+    const fetchUserData = async () => {
+        const data = await getDataUser();
+        if (data) {
+            setUserData(data);
+            if (data.profile_image) {
+                setPreviewImage(data.profile_image);
+                setPreviewVisible(true);
             } else {
-                // Handle the case where userData is null
-                setUserData({
-                    id: '',
-                    username: '',
-                    email: '',
-                    profile_image: ''
-                });
+                setPreviewImage('https://cdn-icons-png.flaticon.com/512/149/149071.png'); // Dummy image URL
+                setPreviewVisible(true);
             }
-        };
+        } else {
+            setUserData({
+                id: '',
+                username: '',
+                email: '',
+                profile_image: ''
+            });
+        }
+    };
 
+    useEffect(() => {
         const initAuth = async () => {
             const { authClient, actor } = await initAuthClient();
             setActor(actor);
@@ -49,9 +48,9 @@ const Profile = () => {
         initAuth();
     }, []);
 
+
     const handleChange = ({ file }) => {
         if (file.originFileObj) {
-            console.log("masuk1: ", file);
             const reader = new FileReader();
             reader.readAsDataURL(file.originFileObj);
             reader.onload = () => {
@@ -61,7 +60,6 @@ const Profile = () => {
             };
             setFileList([file]);
         } else {
-            console.log("masuk2: ", file);
             const url = URL.createObjectURL(file);
             setPreviewImage(url);
             setPreviewVisible(true);
@@ -77,19 +75,25 @@ const Profile = () => {
         const reader = new FileReader();
         reader.onload = async (e) => {
             try {
+
+                const username = userData.username;
+                const email = userData.email;
+
+
                 const arrayBuffer = e.target.result
                 const bytes = new Uint8Array(arrayBuffer);
 
                 const principal = Principal.fromText(userData.id);
-                console.log("principal: ", principal);
 
                 // Assuming update_profile_image accepts a byte array
-                const response = await actor.update_profile_image(principal, bytes);
-                console.log('Upload successful:', response);
-                alert('Image uploaded successfully!');
+                const response = await actor.update_profile_image(principal, bytes, username, email);
+                if (response) {
+                    message.success('Image uploaded successfully!')
+                     await fetchUserData();
+                }
+
             } catch (error) {
-                console.error('Failed to upload image:', error);
-                alert('Failed to upload image.');
+                message.error('Failed to upload image.', error);
             }
         };
         reader.readAsArrayBuffer(file);
@@ -106,7 +110,6 @@ const Profile = () => {
                 return Upload.LIST_IGNORE;
             }
 
-            console.log("file: ", file);
             setNewProfileImage(file);
             setFile(file);
 

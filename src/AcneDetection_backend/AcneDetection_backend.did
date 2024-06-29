@@ -37,7 +37,7 @@ service : () -> {
   read_users : () -> (vec User) query;
   remove_users : (text) -> (bool);
   update_profile : (text, opt text, opt text, opt blob) -> (opt User);
-  update_profile_image : (principal, blob, text, text) -> (opt User);
+  update_profile_image : (principal, blob, text, text) -> (bool);
   update_username_and_email : (text, text, text) -> (opt User);
   whoami : () -> (principal) query;
 }

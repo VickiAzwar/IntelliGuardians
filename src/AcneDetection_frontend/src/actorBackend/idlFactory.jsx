@@ -6,7 +6,7 @@ export const idlFactory = ({ IDL }) => {
     token: IDL.Int,
     username: IDL.Text,
     email: IDL.Text,
-    profile_image: IDL.Opt(IDL.Blob),
+    profile_image: IDL.Opt(IDL.Vec(IDL.Nat8)),
     created_at: IDL.Nat64,
     status: IDL.Int,
   });
@@ -43,7 +43,7 @@ export const idlFactory = ({ IDL }) => {
     update_profile: IDL.Func([IDL.Text, IDL.Opt(IDL.Text), IDL.Opt(IDL.Text), IDL.Opt(IDL.Blob)], [IDL.Opt(User)], []),
     update_username_and_email: IDL.Func([IDL.Text, IDL.Text, IDL.Opt(IDL.Text)], [IDL.Opt(User)], []),
     // update_profile_image: IDL.Func([IDL.Text, IDL.Blob], [IDL.Opt(User)], []),
-    update_profile_image: IDL.Func([IDL.Principal, IDL.Vec(IDL.Nat8)], [IDL.Opt(User)], []),
+    update_profile_image: IDL.Func([IDL.Principal, IDL.Vec(IDL.Nat8), IDL.Text, IDL.Text], [IDL.Bool], []),
 
   });
 };
