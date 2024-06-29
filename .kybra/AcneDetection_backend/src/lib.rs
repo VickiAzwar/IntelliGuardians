@@ -2973,12 +2973,58 @@ async fn _cdk_user_defined_is_user_logged_in(
         .await
         .unwrap_or_trap()
 }
+#[ic_cdk_macros::update(name = "update_profile_image")]
+#[candid::candid_method(update, rename = "update_profile_image")]
+async fn _cdk_user_defined_update_profile_image(
+    _cdk_user_defined_user_id: String,
+    _cdk_user_defined_image_data: Vec<u8>,
+) -> (Option<User>) {
+    let interpreter = unsafe { INTERPRETER_OPTION.as_mut() }
+        .unwrap_or_trap("SystemError: missing python interpreter");
+    let vm = &interpreter.vm;
+    let params = (
+        _cdk_user_defined_user_id
+            .try_into_vm_value(vm)
+            .unwrap_or_trap(),
+        _cdk_user_defined_image_data
+            .try_into_vm_value(vm)
+            .unwrap_or_trap(),
+    );
+    call_global_python_function("update_profile_image", params)
+        .await
+        .unwrap_or_trap()
+}
+#[ic_cdk_macros::update(name = "update_username_and_email")]
+#[candid::candid_method(update, rename = "update_username_and_email")]
+async fn _cdk_user_defined_update_username_and_email(
+    _cdk_user_defined_user_id: String,
+    _cdk_user_defined_username: String,
+    _cdk_user_defined_email: String,
+) -> (Option<User>) {
+    let interpreter = unsafe { INTERPRETER_OPTION.as_mut() }
+        .unwrap_or_trap("SystemError: missing python interpreter");
+    let vm = &interpreter.vm;
+    let params = (
+        _cdk_user_defined_user_id
+            .try_into_vm_value(vm)
+            .unwrap_or_trap(),
+        _cdk_user_defined_username
+            .try_into_vm_value(vm)
+            .unwrap_or_trap(),
+        _cdk_user_defined_email
+            .try_into_vm_value(vm)
+            .unwrap_or_trap(),
+    );
+    call_global_python_function("update_username_and_email", params)
+        .await
+        .unwrap_or_trap()
+}
 #[ic_cdk_macros::update(name = "update_profile")]
 #[candid::candid_method(update, rename = "update_profile")]
 async fn _cdk_user_defined_update_profile(
     _cdk_user_defined_user_id: String,
-    _cdk_user_defined_username: String,
-    _cdk_user_defined_email: String,
+    _cdk_user_defined_username: Option<String>,
+    _cdk_user_defined_email: Option<String>,
     _cdk_user_defined_profile_image: Option<Vec<u8>>,
 ) -> (Option<User>) {
     let interpreter = unsafe { INTERPRETER_OPTION.as_mut() }
@@ -3087,6 +3133,19 @@ async fn _cdk_user_defined_insert_token(_cdk_user_defined_user_id: String) -> (O
         .try_into_vm_value(vm)
         .unwrap_or_trap(),);
     call_global_python_function("insert_token", params)
+        .await
+        .unwrap_or_trap()
+}
+#[ic_cdk_macros::update(name = "remove_users")]
+#[candid::candid_method(update, rename = "remove_users")]
+async fn _cdk_user_defined_remove_users(_cdk_user_defined_user_id: String) -> (bool) {
+    let interpreter = unsafe { INTERPRETER_OPTION.as_mut() }
+        .unwrap_or_trap("SystemError: missing python interpreter");
+    let vm = &interpreter.vm;
+    let params = (_cdk_user_defined_user_id
+        .try_into_vm_value(vm)
+        .unwrap_or_trap(),);
+    call_global_python_function("remove_users", params)
         .await
         .unwrap_or_trap()
 }

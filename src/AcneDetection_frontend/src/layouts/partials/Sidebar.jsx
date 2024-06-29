@@ -1,22 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   SketchCircleFilled,
   CameraFilled,
   HomeFilled,
   GoldFilled,
   LogoutOutlined,
+  BulbFilled
 } from "@ant-design/icons";
-import { Layout, Menu, theme } from "antd";
+import { Layout, Menu } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
 import Logo from "../../component/Logo/Logo";
 import { AuthClient } from "@dfinity/auth-client";
-// import logout from '../../views/auth/auth'
+import getDataUser from "../../helpers/getDataUser";
 
 const { Sider } = Layout;
 
 const Sidebar = ({ collapsed }) => {
   const location = useLocation();
   const navigate = useNavigate();
+
+  const [dataUser, setDataUser] = useState(null);
 
   const menuItems = [
     {
@@ -39,8 +42,16 @@ const Sidebar = ({ collapsed }) => {
       icon: <SketchCircleFilled />,
       label: "Subscribe",
     },
-    
   ];
+
+  useEffect(() => {
+    const fetchDataUser = async () => {
+      const user = await getDataUser();
+      setDataUser(user);
+    };
+
+    fetchDataUser();
+  }, []);
 
   const handleMenuClick = (e) => {
     navigate(e.key);
@@ -52,9 +63,19 @@ const Sidebar = ({ collapsed }) => {
     localStorage.removeItem('session');
     localStorage.clear();
     navigate('/login');
-
   };
-  
+
+  if (dataUser && dataUser.status === '1') {
+    menuItems.push({
+      key: "/tip",
+      icon: <BulbFilled />,
+      label: "Tips and Trick",
+    });
+  }
+
+  // Determine the selected key for the menu
+  const selectedKey = location.pathname.startsWith("/category/") ? "/category" : location.pathname;
+
   return (
     <Sider
       trigger={null}
@@ -68,7 +89,7 @@ const Sidebar = ({ collapsed }) => {
         style={{ fontSize: '16px' }}
         theme="light"
         mode="inline"
-        selectedKeys={[location.pathname]}
+        selectedKeys={[selectedKey]}
         onClick={handleMenuClick}
         items={menuItems}
       />
@@ -78,9 +99,10 @@ const Sidebar = ({ collapsed }) => {
         theme="light"
         mode="inline"
         onClick={handleLogoutClick}
-        items={[{key: '/logout', icon: <LogoutOutlined />, label: 'Log Out'}]}
+        items={[{ key: '/logout', icon: <LogoutOutlined />, label: 'Log Out' }]}
       />
     </Sider>
   );
 };
+
 export default Sidebar;

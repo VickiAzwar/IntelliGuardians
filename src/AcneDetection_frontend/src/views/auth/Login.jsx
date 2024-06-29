@@ -7,6 +7,7 @@ import initAuthClient from "../../actorBackend/initAuthClient";
 import { useNavigate } from "react-router-dom";
 import { Principal } from '@dfinity/principal';
 import getDataSession from "../../helpers/getDataSession";
+import Loaded from "../../component/Loaded/Loaded";
 
 
 function Login() {
@@ -27,10 +28,7 @@ function Login() {
             setAuthClient(authClient);
             setActor(actor);
 
-            console.log("user di login", user);
-
             if (user && user !== ANONYMOUS_PRINCIPAL) {
-                console.log("masuk sini");
                 const principal = Principal.fromText(user);
                 const check_user = await actor.read_user_by_id(principal);
                 if (check_user[0]!== null || check_user.length !== 0) {
@@ -52,7 +50,7 @@ function Login() {
     }
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <Loaded />
     }
 
     return (
@@ -67,7 +65,7 @@ function Login() {
                     designed to help you easily identify different
                     types of acne from the comfort of your home.
                 </p>
-                <Button primary className="rounded-full" onClick={btnLogin}>
+                <Button primary className="rounded-full p-3" onClick={btnLogin}>
                     Login Internet Identity
                 </Button>
                 <button></button>

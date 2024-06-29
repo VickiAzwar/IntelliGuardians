@@ -25,7 +25,6 @@ const Camera = ({ imageRef, setOriginalImage, disabled }) => {
   const handleCapture = (webcamRef) => {
     const imageSrc = webcamRef.current.getScreenshot();
     setCapturedImage(imageSrc);
-    console.log("imageSrc: ", imageSrc);
     setShowWebcam(false);
   };
 
@@ -49,15 +48,10 @@ const Camera = ({ imageRef, setOriginalImage, disabled }) => {
 
       imageRef.current.src = imageUrl;
       imageRef.current.style.display = "block";
-
-      // Simulate an upload action
-      console.log('Image URL:', imageUrl);
+      
       message.success('Image URL created successfully!');
       handleCloseCamera();
-      
 
-      // Cleanup the URL object after use
-      // URL.revokeObjectURL(imageUrl);
     } catch (error) {
       message.error(error);
     }

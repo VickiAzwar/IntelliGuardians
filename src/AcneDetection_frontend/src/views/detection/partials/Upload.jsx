@@ -25,7 +25,7 @@ const Upload = ({imageRef, setOriginalImage, disabled}) => {
             return;
         }
         imageRef.current.src = imgData;
-        console.log("imageref: ", imgData);
+
         imageRef.current.style.display="block";
         handleClose();
     };

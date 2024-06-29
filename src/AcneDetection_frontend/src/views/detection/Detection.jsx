@@ -6,20 +6,19 @@ import Camera from "./partials/Camera";
 import Upload from "./partials/Upload";
 import * as tf from "@tensorflow/tfjs";
 import "@tensorflow/tfjs-backend-webgl"; // set backend to webgl
-import Loader from "../../component/Loading/Loader";
 import Title from "../../component/Title/Title";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import getDataUser from "../../helpers/getDataUser";
 import initAuthClient from "../../actorBackend/initAuthClient";
 import HandleUploadToken from "./partials/HandleUploadToken";
 import ListItem from "./partials/ListItem";
 import ImgDetection from "./partials/ImgDetection";
+import Loaded from "../../component/Loaded/Loaded";
 
 const Detection = () => {
 
   const [originalImage, setOriginalImage] = useState(null);
   const [loading, setLoading] = useState({ loading: true, progress: 0 });
-  const [isModelLoaded, setIsModelLoaded] = useState(false);
   const [actor, setActor] = useState(null);
   const [model, setModel] = useState({
     net: null,
@@ -27,6 +26,7 @@ const Detection = () => {
   });
 
   const [dataUser, setDataUser] = useState(null);
+  const [acneData, setAcneData] = useState(null);
 
   const navigate = useNavigate();
 
@@ -54,8 +54,7 @@ const Detection = () => {
         inputShape: yolov8.inputs[0].shape,
       });
 
-      tf.dispose([warmupResults, dummyInput]);
-      setIsModelLoaded(true);
+      tf.dispose([warmupResults, dummyInput]);      
     });
   }, []);
 
@@ -75,34 +74,31 @@ const Detection = () => {
   };
 
   const handleDetection = async () => {
-    await HandleUploadToken(actor, dataUser, setDataUser, imageRef, model, canvasRef);
+    await HandleUploadToken(actor, dataUser, setDataUser, imageRef, model, canvasRef, setAcneData);
   };
 
 
   return (
     <>
-      <div className="container">
-        {loading.loading && (
-          <Loader>
-            Loading model... {(loading.progress * 100).toFixed(2)}%
-          </Loader>
-        )}
-        <Title text="Smart Acne Detection" />
-      </div>
+      
+       {loading.loading && <Loaded text={`Model... ${(loading.progress * 100).toFixed(2)}%`} />}
+      <Title text="Smart Acne Detection" />
       <ImgDetection
         imageRef={imageRef}
         originalImage={originalImage}
         handleDetection={handleDetection}
         model={model}
+        acneData={acneData}
         canvasRef={canvasRef}
       />
+
       <div className="detection">
         <div className="input">
           <h3>Input your image</h3>
           <p>The input image will not be saved</p>
           <p className="text-slate-500">Cost <span className="text-sky-600">{dataUser?.token ? dataUser.token : 0}</span> credit's to detection.</p>
-
-          {dataUser?.token > 0 || dataUser?.status === 1 ? (
+          
+          {dataUser?.status === '1' || dataUser?.token > 0 ? (
             <div className="button">
               <Camera imageRef={imageRef} setOriginalImage={setOriginalImage} />
               <Upload imageRef={imageRef} setOriginalImage={setOriginalImage} />
@@ -114,7 +110,7 @@ const Detection = () => {
                 Go to Premium
               </Button>
             </div>
-          )} 
+          )}
 
           <ListItem />
 

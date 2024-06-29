@@ -27,14 +27,13 @@ const handleLogin = async (authClient, actor, navigate) => {
         // Check authentication
         const identity = authClient.getIdentity().getPrincipal();
         const principal = identity.toString();
-        console.log("identity: ", identity);
 
         const check_user = await actor.read_user_by_id(identity);
 
         let users;
         if ((check_user.length === 0 || check_user[0] === null) && principal !== ANONYMOUS_PRINCIPAL) {
             users = await actor.create_users(principal);
-            console.log("register");
+
         } else {
             users= check_user[0];
         }

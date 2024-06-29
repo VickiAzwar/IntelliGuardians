@@ -1,137 +1,168 @@
-import React , {useState, useEffect} from "react";
+import React, { useState, useEffect } from 'react';
+import Title from "../../component/Title/Title";
+import { Input, Typography, Upload, Button as Btn, message } from "antd";
+import getDataUser from "../../helpers/getDataUser";
+import initAuthClient from '../../actorBackend/initAuthClient';
+import { UploadOutlined } from "@ant-design/icons";
+import Button from '../../component/Button/Button';
 import { Principal } from '@dfinity/principal';
-import Button from "../../component/Button/Button";
-import initAuthClient from '../../actorBackend/initAuthClient'
-import { useNavigate } from "react-router-dom";
-import loginImg from "../../../assets/image/acneimg.jpg"
 
-const iiCanisterId = process.env.CANISTER_ID_INTERNET_IDENTITY;
-const ANONYMOUS_PRINCIPAL = "2vxsx-fae";
-
-function MyComponent () {
-    const [authClient, setAuthClient] = useState(null);
-    const [user, setUser] = useState(null);
+const Profile = () => {
+    const [fileList, setFileList] = useState([]);
+    const [userData, setUserData] = useState({
+        id: '',
+        username: '',
+        email: '',
+        profile_image: ''
+    });
+    const [newProfileImage, setNewProfileImage] = useState(null);
+    const [previewVisible, setPreviewVisible] = useState(false);
+    const [previewImage, setPreviewImage] = useState('');
     const [actor, setActor] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const navigate = useNavigate();
 
     useEffect(() => {
-        const initAuth = async () => {
-          const {authClient, actor} = await initAuthClient();
-          setAuthClient(authClient);
-          setActor(actor);
-
-          const storedAuth = localStorage.getItem('user');
-          if (storedAuth && storedAuth !== ANONYMOUS_PRINCIPAL) {
-            setIsAuthenticated(true);
-            navigate('/haha');
-          }
-          setLoading(false);
+        const fetchUserData = async () => {
+            const data = await getDataUser();
+            setUserData(data);
+            if (data.profile_image) {
+                setPreviewImage(`data:image/png;base64,${data.profile_image}`);
+                setPreviewVisible(true);
+            } else {
+                setPreviewImage('https://cdn-icons-png.flaticon.com/512/149/149071.png'); // Dummy image URL
+                setPreviewVisible(true);
+            }
         };
+
+        const initAuth = async () => {
+            const { authClient, actor } = await initAuthClient();
+            setActor(actor);
+        };
+
+        fetchUserData();
         initAuth();
-        
-      }, []);
+    }, []);
 
-      const handleLogin = async () => {
-        try {
-    
-          // Start login
-          await new Promise((resolve, reject) => {
-            authClient.login({
-              identityProvider: getIdentityProviderUrl(),
-              maxTimeToLive: BigInt(10 * 60 * 1000 * 1000 * 1000),
-              onSuccess: resolve,
-              onError: reject,
-            });
-          });
-    
-          // Check Authentication
-          const identity = authClient.getIdentity().getPrincipal();
-        //   const principal = Principal.fromText(identity);
-          console.log("Identity : ", identity);
-    
-          const whoami = await actor.whoami();
-          console.log("whoami: ", whoami.toText())
-    
-          let users;
-    
-          let check_user = await actor.read_user_by_id(identity);
-          console.log("check user: ", check_user);
-
-          let validateuser = await actor.is_user_logged_in(identity);
-          console.log("validate user: ", validateuser);
-    
-          if ((check_user.length === 0 || check_user[0] === null) && identity !== ANONYMOUS_PRINCIPAL) {
-            users = await actor.create_users(identity.toString());
-            console.log("REGISTER");
-          } else {
-            console.log("Masuk ke SUDAH ADA akun");
-            users = check_user[0];
-          }
-    
-          setUser(users);
-          // Save session
-          localStorage.setItem('user', identity);
-          console.log("user : ", user);
-          navigate('/haha');
-    
-        } catch (error) {
-          console.log(error);
-        }
-      }
-    
-      const handleLogout = async () => {
-        await authClient.logout();
-        setUser(null);
-        localStorage.removeItem('principal');
-        navigate('/login');
-      };
-    
-      const getIdentityProviderUrl = () => {
-        if (process.env.DFX_NETWORK === "local") {
-          return `http://localhost:4943/?canisterId=${iiCanisterId}`;
+    const handleChange = ({ file }) => {
+        if (file.originFileObj) {
+            const reader = new FileReader();
+            reader.readAsDataURL(file.originFileObj);
+            reader.onload = () => {
+                setNewProfileImage(reader.result.split(',')[1]);
+                setPreviewImage(reader.result);
+                setPreviewVisible(true);
+            };
+            setFileList([file]);
         } else {
-          return `https://${iiCanisterId}.ic0.app`;
+            const url = URL.createObjectURL(file);
+            setPreviewImage(url);
+            setPreviewVisible(true);
         }
-      };
-    
-     
-      console.log("users2: ", user);
-    
-      if (loading) {
-        return <div>Loading...</div>; // Show loading state while initializing
-      }
+    };
+
+    const handleUpdateProfile = async () => {
+        if (!actor) {
+            message.error("Failed to initialize authentication.");
+            return;
+        }
+
+        try {
+            // const imgBlob = await fileToBlob(newProfileImage);
+ 
+            const updatedUser = {
+                id: userData.id,
+                username: userData.username,
+                email: userData.email,
+                // profile_image: imgBlob,
+            };
+
+            // const result = await actor.update_profile(updatedUser.id, updatedUser.username, updatedUser.email, updatedUser.profile_image);
+            console.log("username: ", updatedUser.username)
+            console.log("username: ", updatedUser.email)
+            const result = await actor.update_username_and_email(updatedUser.id, updatedUser.username, updatedUser.email)
+            if (result) {
+                message.success("Profile updated successfully!");
+                setUserData(updatedUser);
+            } else {
+                message.error("Failed to update profile.");
+            }
+        } catch (error) {
+            message.error("Failed to update profile.");
+            console.error("Update profile error: ", error);
+        }
+    };
+
+
+    const fileToBlob = (file) => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                resolve(new Uint8Array(reader.result));
+            };
+            reader.onerror = reject;
+            reader.readAsArrayBuffer(file);
+        });
+    };
+
+    const uploadProps = {
+        name: 'file',
+        multiple: false,
+        maxCount: 1,
+        beforeUpload: (file) => {
+            const isImage = file.type === 'image/png' || file.type === 'image/jpeg';
+            if (!isImage) {
+                message.error('You can only upload PNG or JPG files!');
+                return Upload.LIST_IGNORE;
+            }
+            console.log(file);
+            setNewProfileImage(file);
+            return false; // Prevent automatic upload
+        },
+        onChange: handleChange
+    };
 
     return (
-      <>
-      {!user ? (
-         <div className='container-login'>
-         <div className='left-content'>
-             <img src={loginImg} alt="Image" />
-         </div>
-         <div className='right-content'>
-             <h1>"Smart Acne Detection"</h1>
-             <h2>Simple, Easy, and From Home</h2>
-             <p>Discover our cutting-edge web application
-                 designed to help you easily identify different
-                 types of acne from the comfort of your home.
-             </p>
-             <Button  className='' primary onClick={handleLogin}>
-                 Login Internet Identity
-             </Button>
-         </div>
-        </div>
-      ): (
-        <div>
-        <p>Welcome, {user.id.toString()}</p>
-        <p>You have {user.token.toString()} coins.</p>
-        <button onClick={handleLogout}>Logout</button>
-      </div>
-      )}
-      </>
+        <>
+            <Title text="User Profile" />
+            <div className='flex justify-center gap-10 shadow-xl rounded-lg border-2 max-w-full h-auto w-3/5 py-10 mx-auto'>
+                <div className='img bg-sky-100 rounded-lg w-80 h-80 p-10 flex justify-center items-center'>
+                    {previewVisible && (
+                        <img src={previewImage} alt="Image Preview" className='rounded-full object-cover w-full h-full' />
+                    )}
+                </div>
+                <div className='flex flex-col justify-center w-max-full p-5 border-2 border-black rounded-xl'>
+                    <div className='mt-3'>
+                        <Typography.Title level={5}>Username</Typography.Title>
+                        <Input 
+                            placeholder='Username'
+                            value={userData.username} // Gunakan 'value' untuk mengikat input dengan state
+                            onChange={(e) => setUserData({ ...userData, username: e.target.value })}
+                            style={{ maxWidth: '100%', width: '400px' }} 
+                        />
+                    </div>
+                    <div className='mt-3'>
+                        <Typography.Title level={5}>Email</Typography.Title>
+                        <Input 
+                            placeholder='Email'
+                            value={userData.email} // Gunakan 'value' untuk mengikat input dengan state
+                            onChange={(e) => setUserData({ ...userData, email: e.target.value })}
+                            style={{ maxWidth: '100%' }} 
+                        />
+                    </div>
+                    <div className='mt-3'>
+                        <Typography.Title level={5}>Profile Image</Typography.Title>
+                        <Upload {...uploadProps} fileList={fileList}>
+                            <Btn icon={<UploadOutlined />}>Click to Upload</Btn>
+                        </Upload>
+                    </div>
+                    <div className='flex items-center pt-5'>
+                        <Button primary className="rounded-full max-w-full w-60 pt-3 h-auto mx-auto" onClick={handleUpdateProfile}>
+                            Edit Profile
+                        </Button>
+                    </div>
+                </div>
+            </div>
+        </>
     );
-  
-};
+}
 
-export default MyComponent;
+export default Profile;

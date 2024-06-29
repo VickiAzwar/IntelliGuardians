@@ -35,17 +35,60 @@ orders = StableBTreeMap[Principal, Orders](
 # Profile
 
 @update
-def update_profile(user_id: str, username: str, email: str, profile_image: Opt[blob]) -> Opt[User]:
+def update_profile_image(user_id: str, image_data: blob) -> Opt[User]:
+    ic.print("masuk update")
+    principal_id = Principal.from_str(user_id)
+    user = users.get(principal_id)
+
+    ic.print("img data: ", blob)
+
+    if user is not None:
+        ic.print("nasuk2")
+        user.profile_image = image_data
+        ic.print("nasuk3")
+        users.insert(principal_id, user)
+        ic.print("nasuk4")
+        return user
+    ic.print("nasuk5")
+    return None
+
+
+@update
+def update_username_and_email(user_id: str, username: str, email: str) -> Opt[User]:
     principal_id = Principal.from_str(user_id)
     user = users.get(principal_id)
 
     if user is not None:
-        user["username"] = username
-        user["email"] = email
-        user["profile_image"] = profile_image
+        if username != '':
+            user["username"] = username
+        if email != '':
+            user["email"] = email
+
         users.insert(principal_id, user)
         return user
     return None
+
+
+@update
+def update_profile(user_id: str, username: Opt[str], email: Opt[str], profile_image: Opt[blob]) -> Opt[User]:
+    principal_id = Principal.from_str(user_id)
+    user = users.get(principal_id)
+
+    ic.print("profile: ", profile_image)
+    ic.print("user", user)
+
+    if user is not None:
+        if username is not None:
+            user["username"] = username
+        if email is not None:
+            user["email"] = email
+        if profile_image is not None:
+            user["profile_image"] = profile_image
+
+        users.insert(principal_id, user)
+        return user
+    return None
+
 
 
 # Orders
@@ -180,6 +223,17 @@ def insert_token(user_id: str) -> Opt[User]:
 
 
 # User
+
+@update
+def remove_users(user_id: str) -> bool:
+    principal_id = Principal.from_str(user_id)
+    exist_package = users.get(principal_id)
+
+    if exist_package is not None:
+        subscribe_packages.remove(principal_id)
+        return True
+    else:
+        return False
 
 @update
 def create_users(user_id: str) -> User:

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import getSessionExpired from '../../helpers/getSessionExpired';
+import Loaded from "../../component/Loaded/Loaded"
 
 const ProtectedRoute = () => {
 
@@ -14,7 +15,6 @@ const ProtectedRoute = () => {
             const isAuth = getSessionExpired();
             setIsAuthenticated(isAuth);
             setLoading(false);
-            console.log("Protedted Route: ", isAuth);
             
         };
         checkAuth();
@@ -22,7 +22,7 @@ const ProtectedRoute = () => {
 
    
     if (loading) {
-        return <div>Loading...</div>;
+        return <Loaded />;
     }
 
     return isAuthenticated ? <Outlet /> : <Navigate to="/login" />;

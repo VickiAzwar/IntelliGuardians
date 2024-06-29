@@ -55,21 +55,15 @@ function Login () {
           // Check Authentication
           const identity = authClient.getIdentity().getPrincipal().toString();
           const principal = Principal.fromText(identity);
-          console.log("Identity : ", identity);
-    
-          const whoami = await actor.whoami();
-          console.log("whoami: ", whoami.toText())
-    
+   
+
           let users;
     
           let check_user = await actor.read_user_by_id(principal);
-          console.log("check user: ", check_user);
-    
+
           if ((check_user.length === 0 || check_user[0] === null) && identity !== ANONYMOUS_PRINCIPAL) {
             users = await actor.create_users(principal.toText());
-            console.log("User create: ", users);
           } else {
-            console.log("Masuk ke SUDAH ADA akun");
             users = check_user[0];
           }
     

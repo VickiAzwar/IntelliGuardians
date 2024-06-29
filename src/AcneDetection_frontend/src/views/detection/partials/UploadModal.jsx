@@ -11,7 +11,6 @@ const UploadModal = ({ modalOpen, handleClose, handleUpload, fileList, handleFil
     fileList,
     maxCount: 1,
     beforeUpload: (file) => {
-      console.log("file awal", file)
       const isImage = file.type === 'image/png' || file.type === 'image/jpeg';
       if (!isImage) {
         message.error('You can only upload PNG or JPG files!');

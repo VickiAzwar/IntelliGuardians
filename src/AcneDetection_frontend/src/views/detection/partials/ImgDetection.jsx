@@ -1,16 +1,16 @@
 // ImgDetection.jsx
 import React from 'react';
 
-const ImgDetection = ({ imageRef, originalImage, handleDetection, model, canvasRef }) => {
+const ImgDetection = ({ imageRef, originalImage, handleDetection, model, canvasRef, acneData }) => {
     return (
         <>
             {imageRef && originalImage && (
-                <div className="flex justify-center gap-10 border-solid border-2 p-5 rounded-lg">
+                <div className="flex justify-center text-center gap-10 border-solid border-2 p-5 rounded-lg">
                     <div className="image-container">
                         <h3 className="mb-2 font-bold">Original Image</h3>
                         <img
                             src={originalImage}
-                            className="w-full max-w-[720px] max-h-[500px] rounded-lg"
+                            className="w-full max-w-[640px] max-h-[500px] rounded-lg"
                             alt="Original Image"
                         />
                     </div>
@@ -21,8 +21,8 @@ const ImgDetection = ({ imageRef, originalImage, handleDetection, model, canvasR
                                 src="#"
                                 ref={imageRef}
                                 onLoad={handleDetection}
-                                alt="Original"
-                                className="hidden sm:block w-full max-w-[720px] max-h-[500px] rounded-lg"
+                                alt="Detection"
+                                className="hidden sm:block w-full max-w-[640px] max-h-[500px] rounded-lg"
                             />
                             <canvas
                                 width={model.inputShape[1]}
@@ -31,6 +31,23 @@ const ImgDetection = ({ imageRef, originalImage, handleDetection, model, canvasR
                                 className="absolute top-0 left-0 w-full h-full object-fill rounded-lg"
                             />
                         </div>
+                    </div>
+                    <div>
+                        {acneData && (
+                           <div className="acne-data mt-4 text-base">
+                           <ul>
+                             {acneData.tipeacne.map((type, index) => (
+                               <li key={index} className="flex items-center">
+                                 <div
+                                   className="w-4 h-4 mr-2"
+                                   style={{ backgroundColor: acneData.palette[index] }}
+                                 ></div>
+                                 {type}: {acneData.numtipeacne[index]}
+                               </li>
+                             ))}
+                           </ul>
+                         </div>
+                        )}
                     </div>
                 </div>
             )}

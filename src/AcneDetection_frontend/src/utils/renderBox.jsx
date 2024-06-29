@@ -22,9 +22,30 @@ export const renderBoxes = (canvasRef, boxes_data, scores_data, classes_data, ra
   ctx.font = font;
   ctx.textBaseline = "top";
 
+  let tipeacne = [
+    "blackheads",
+    "dark spot",
+    "nodules",
+    "papules",
+    "pustules",
+    "whiteheads"
+];
+
+let numtipeacne = [0,0,0,0,0,0];
+
+
   for (let i = 0; i < scores_data.length; ++i) {
     // filter based on class threshold
     const klass = labels[classes_data[i]];
+    
+    
+    for(let x =0;x<6; x++){
+      if(klass==tipeacne[x]){
+        numtipeacne[x] = numtipeacne[x] + 1
+      }
+    }
+
+
     const color = colors.get(classes_data[i]);
     const score = (scores_data[i] * 100).toFixed(1);
 
@@ -60,7 +81,12 @@ export const renderBoxes = (canvasRef, boxes_data, scores_data, classes_data, ra
     // Draw labels
     ctx.fillStyle = "#ffffff";
     ctx.fillText(klass + " - " + score + "%", x1 - 1, yText < 0 ? 0 : yText);
+
+   
   }
+
+  return { tipeacne, numtipeacne, palette: colors.palette };
+
 };
 
 class Colors {

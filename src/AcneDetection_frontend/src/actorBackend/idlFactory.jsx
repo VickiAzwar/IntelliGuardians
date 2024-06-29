@@ -40,7 +40,10 @@ export const idlFactory = ({ IDL }) => {
     read_subscribe_packages: IDL.Func([], [IDL.Vec(SubscribePackage)], ['query']),
     insert_order: IDL.Func([IDL.Principal, IDL.Principal], [IDL.Opt(Orders)], []),
     check_and_update_user_status: IDL.Func([IDL.Principal], [IDL.Bool], []),
-    update_profile: IDL.Func([IDL.Text, IDL.Text, IDL.Text, IDL.Opt(IDL.Blob)], [IDL.Opt(User)], []),
+    update_profile: IDL.Func([IDL.Text, IDL.Opt(IDL.Text), IDL.Opt(IDL.Text), IDL.Opt(IDL.Blob)], [IDL.Opt(User)], []),
+    update_username_and_email: IDL.Func([IDL.Text, IDL.Text, IDL.Opt(IDL.Text)], [IDL.Opt(User)], []),
+    // update_profile_image: IDL.Func([IDL.Text, IDL.Blob], [IDL.Opt(User)], []),
+    update_profile_image: IDL.Func([IDL.Text, IDL.Vec(IDL.Nat8)], [IDL.Opt(User)], []),
 
   });
 };

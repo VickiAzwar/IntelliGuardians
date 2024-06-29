@@ -4,7 +4,6 @@ const getDataSubscribed = async () => {
   const { authClient, actor } = await initAuthClient();
   try {
     const dataSubscribed = await actor.read_subscribe_packages();
-    console.log(dataSubscribed);
 
     if (dataSubscribed && dataSubscribed.length > 0) {
       return dataSubscribed.map(data => ({

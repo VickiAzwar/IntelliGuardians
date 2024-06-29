@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import getDataSubscribed from "../../helpers/getDataSubscribed";
 import Title from "../../component/Title/Title";
 import Button from "../../component/Button/Button";
-import { Modal, message } from 'antd';
-import initAuthClient from '../../actorBackend/initAuthClient';
-import getDataUser from '../../helpers/getDataUser';
-import { Principal } from '@dfinity/principal';
-import cardSubscribe from './partials/cardSubscribe';
+import { Modal, message } from "antd";
+import initAuthClient from "../../actorBackend/initAuthClient";
+import getDataUser from "../../helpers/getDataUser";
+import { Principal } from "@dfinity/principal";
+import cardSubscribe from "./partials/cardSubscribe";
+import './Subscribe.css';
 
 const Subscribe = () => {
   const [subscriptions, setSubscriptions] = useState([]);
@@ -89,43 +90,38 @@ const Subscribe = () => {
 
   return (
     <>
-      <Title text="Subscribe" />
-      <div className="flex flex-col justify-center text-center mx-auto mt-3 p-5 bg-sky-100 rounded-lg">
-        <div className="items-center text-xl font-semibold mt-5 p-5 text-sky-800">
-          "Try our services with an annual, monthly, or daily subscription and
-          see what makes our website unique - choose a package now!"
-        </div>
-        {subscriptions.length === 0 ? (
-          <div className="flex justify-center gap-5 mt-5">
-            {items.map((sub) => (
-              <div
-                key={sub.id}
-                className="bg-white p-5 rounded-lg shadow-md max-w-full w-80"
-              >
-                <h1 className="text-2xl font-bold pb-3 text-sky-800">
-                  {sub.period}
-                </h1>
-                <hr className="border-1 border-gray-500 " />
-                <p className="m-5 text-xl text-sky-900">{sub.description}</p>
-                <div className="flex flex-col items-center border-2 border-sky-800  rounded-lg p-4">
-                  <p className="text-sky-800 mb-2 text-2xl font-bold mb-3">Price: {sub.price} coin</p>
-
-                  <Button
-                    key={sub.id}
-                    secondary={dataUser?.status !== "1"}
-                    disabled={dataUser?.status === "1"}
-                    className={"rounded-full"}
-                    onClick={() => showModal(sub)}
-                  >
-                    Buy Package
-                  </Button>
-                </div>
-              </div>
-            ))}
+      <div className="container">
+        <div className="subscription-box">
+          <div className="subscription-message">
+            "Try our services with an annual, monthly, or daily subscription and
+            see what makes our website unique - choose a package now!"
           </div>
-        ) : (
-          <p>No subscription packages available.</p>
-        )}
+          {subscriptions.length > 0 ? (
+            <div className="subscription-items">
+              {items.map((sub) => (
+                <div key={sub.id} className="subscription-card">
+                  <h1 className="subscription-title">{sub.period}</h1>
+                  <hr className="border-1 border-gray-500" />
+                  <p className="subscription-description">{sub.description}</p>
+                  <div className="subscription-price-box">
+                    <p className="subscription-price">Price: {sub.price} coin</p>
+                    <Button
+                      key={sub.id}
+                      secondary={dataUser?.status !== "1"}
+                      disabled={dataUser?.status === "1"}
+                      className={"rounded-full"}
+                      onClick={() => showModal(sub)}
+                    >
+                      Buy Package
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p>No subscription packages available.</p>
+          )}
+        </div>
       </div>
       <Modal
         title="Confirm Subscription"
@@ -141,12 +137,12 @@ const Subscribe = () => {
             </p>
             <Button
               primary
-              className={"rounded-full"}
+              className="modal-button"
               onClick={handleConfirmSubscription}
             >
               Confirm
             </Button>
-            <Button secondary className={"rounded-full"} onClick={handleCancel}>
+            <Button secondary className="modal-button" onClick={handleCancel}>
               Cancel
             </Button>
           </>

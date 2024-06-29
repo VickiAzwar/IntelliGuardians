@@ -12,10 +12,17 @@ import ProtectedRoute from "./routes/protectedRoute";
 import MyComponent from "../views/testlogin/test";
 import AcneDetail from "../views/category/Acne_Detail.jsx";
 import Profile from "../views/profile/Profile";
+import Loaded from "../component/Loaded/Loaded.jsx";
+import Tips from "../views/tips/Tips.jsx"
 
 
 function Routes() {
     const router = createBrowserRouter([
+        {
+            path: '/load',
+            element: <Loaded />,
+            errorElement: <ErrorPage />,
+        },
 
         {
             path: '/',
@@ -53,6 +60,22 @@ function Routes() {
                         {
                             path: '',
                             element: <Home />,
+                        },
+                    ],
+                },
+            ],
+        },
+        {
+            path: '/tip',
+            element: <BaseLayout />,
+            children: [
+                {
+                    path: '',
+                    element: <ProtectedRoute />, // Use ProtectedRoute
+                    children: [
+                        {
+                            path: '',
+                            element: <Tips />,
                         },
                     ],
                 },
