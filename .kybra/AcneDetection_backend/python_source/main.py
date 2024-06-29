@@ -45,7 +45,6 @@ def update_profile_image(user_id: Principal, image_data: blob, username: str, em
     ic.print("image_data: ", image_data)
 
     if user is not None:
-        ic.print("nasuk2")
         if username != '':
             user["username"] = username
         if email != '':

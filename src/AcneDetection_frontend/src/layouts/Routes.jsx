@@ -65,22 +65,22 @@ function Routes() {
                 },
             ],
         },
-        {
-            path: '/history',
-            element: <BaseLayout />,
-            children: [
-                {
-                    path: '',
-                    element: <ProtectedRoute />, // Use ProtectedRoute
-                    children: [
-                        {
-                            path: '',
-                            element: <History />,
-                        },
-                    ],
-                },
-            ],
-        },
+        // {
+        //     path: '/history',
+        //     element: <BaseLayout />,
+        //     children: [
+        //         {
+        //             path: '',
+        //             element: <ProtectedRoute />, // Use ProtectedRoute
+        //             children: [
+        //                 {
+        //                     path: '',
+        //                     element: <History />,
+        //                 },
+        //             ],
+        //         },
+        //     ],
+        // },
         {
             path: '/tip',
             element: <BaseLayout />,

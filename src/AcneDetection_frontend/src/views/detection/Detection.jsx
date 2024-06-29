@@ -35,29 +35,29 @@ const Detection = () => {
   const canvasRef = useRef(null);
   const modelName = "yolov8n";
 
-  // useEffect(() => {
-  //   tf.ready().then(async () => {
-  //     const yolov8 = await tf.loadGraphModel(
-  //       `${window.location.origin}/${modelName}_web_model/model.json`,
-  //       {
-  //         onProgress: (fractions) => {
-  //           setLoading({ loading: true, progress: fractions });
-  //         },
-  //       }
-  //     );
+  useEffect(() => {
+    tf.ready().then(async () => {
+      const yolov8 = await tf.loadGraphModel(
+        `${window.location.origin}/${modelName}_web_model/model.json`,
+        {
+          onProgress: (fractions) => {
+            setLoading({ loading: true, progress: fractions });
+          },
+        }
+      );
 
-  //     const dummyInput = tf.ones(yolov8.inputs[0].shape);
-  //     const warmupResults = yolov8.execute(dummyInput);
+      const dummyInput = tf.ones(yolov8.inputs[0].shape);
+      const warmupResults = yolov8.execute(dummyInput);
 
-  //     setLoading({ loading: false, progress: 1 });
-  //     setModel({
-  //       net: yolov8,
-  //       inputShape: yolov8.inputs[0].shape,
-  //     });
+      setLoading({ loading: false, progress: 1 });
+      setModel({
+        net: yolov8,
+        inputShape: yolov8.inputs[0].shape,
+      });
 
-  //     tf.dispose([warmupResults, dummyInput]);      
-  //   });
-  // }, []);
+      tf.dispose([warmupResults, dummyInput]);      
+    });
+  }, []);
 
   useEffect(() => {
     const initAuth = async () => {
@@ -86,7 +86,7 @@ const Detection = () => {
   return (
     <>
       
-       {/* {loading.loading && <Loaded text={`Model... ${(loading.progress * 100).toFixed(2)}%`} />} */}
+       {loading.loading && <Loaded text={`Model... ${(loading.progress * 100).toFixed(2)}%`} />}
       <Title text="Smart Acne Detection" />
       <ImgDetection
         imageRef={imageRef}

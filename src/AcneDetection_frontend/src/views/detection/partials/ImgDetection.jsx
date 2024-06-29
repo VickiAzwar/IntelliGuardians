@@ -52,11 +52,11 @@ const ImgDetection = ({ imageRef, originalImage, handleDetection, model, canvasR
                             )}
                         </div>
                     </div>
-                    <div className='mt-10'>
+                    {/* <div className='mt-10'>
                         <Button secondary className={"rounded-full text-lg"} onClick={handleSaveDetect}>
                             Save Data Detection
                         </Button>
-                    </div>
+                    </div> */}
                 </div>
 
             )}

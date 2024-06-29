@@ -43,11 +43,11 @@ const Sidebar = ({ collapsed }) => {
       icon: <SketchCircleFilled />,
       label: "Subscribe",
     },
-    {
-      key: "/history",
-      icon: <ClockCircleFilled />,
-      label: "History",
-    },
+    // {
+    //   key: "/history",
+    //   icon: <ClockCircleFilled />,
+    //   label: "History",
+    // },
   ];
 
   useEffect(() => {
