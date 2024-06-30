@@ -32,17 +32,13 @@ orders = StableBTreeMap[Principal, Orders](
     memory_id=2, max_key_size=38, max_value_size=100_000
 )
 
+
 # Profile
 
 @update
 def update_profile_image(user_id: Principal, image_data: blob, username: str, email: str) -> bool:
-    ic.print("masuk update")
-    user = users.get(user_id)
 
-    ic.print("img data: ", blob)
-    ic.print("username: ", username)
-    ic.print("email: ", email)
-    ic.print("image_data: ", image_data)
+    user = users.get(user_id)
 
     if user is not None:
         if username != '':
@@ -78,9 +74,6 @@ def update_username_and_email(user_id: str, username: str, email: str) -> Opt[Us
 def update_profile(user_id: str, username: Opt[str], email: Opt[str], profile_image: Opt[blob]) -> Opt[User]:
     principal_id = Principal.from_str(user_id)
     user = users.get(principal_id)
-
-    ic.print("profile: ", profile_image)
-    ic.print("user", user)
 
     if user is not None:
         if username is not None:
@@ -269,8 +262,6 @@ def read_users() -> Vec[User]:
 @query
 def read_user_by_id(user_id: Principal) -> Opt[User]:
     user = users.get(user_id)
-    ic.print(user["id"])
-    ic.print("masuk")
     if user is None:
         return None
     return user

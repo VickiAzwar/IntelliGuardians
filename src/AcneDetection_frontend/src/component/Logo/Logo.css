@@ -1,0 +1,22 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.loading {
+    @apply flex items-center gap-4 p-5;
+}
+
+.loading img {
+    @apply max-w-full h-10 w-auto;
+}
+
+.loading h1 {
+    @apply text-xl;
+}
+
+.loading span {
+    @apply text-sky-600;
+}
+

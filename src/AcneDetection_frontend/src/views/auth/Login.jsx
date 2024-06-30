@@ -29,7 +29,6 @@ function Login() {
             setActor(actor);
 
             if (user && user !== ANONYMOUS_PRINCIPAL) {
-                console.log("msuk user:", user)
                 const principal = Principal.fromText(user);
                 const check_user = await actor.read_user_by_id(principal);
                 if (check_user[0]!== null || check_user.length !== 0) {
@@ -55,7 +54,7 @@ function Login() {
     }
 
     return (
-        <div className='container-login'>
+        <div className='login'>
             <div className='left-content'>
                 <img src={loginImg} alt="Image" />
             </div>

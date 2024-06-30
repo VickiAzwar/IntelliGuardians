@@ -1,13 +1,14 @@
 import React from 'react';
 import LogoImg from '../../../assets/image/logo.png';
+import './Logo.css';
 
 const Logo = ({ collapsed }) => {
   return (
-    <div className="flex items-center gap-4 p-5">
-      <img src={LogoImg} alt="Logo" className="max-w-full h-10 w-auto" />
+    <div className="loading">
+      <img src={LogoImg} alt="Logo" />
       {!collapsed && (
-        <h1 className="text-xl">
-          <span className="text-sky-600">Acne</span> Detection
+        <h1>
+          <span>Acne</span> Detection
         </h1>
       )}
     </div>

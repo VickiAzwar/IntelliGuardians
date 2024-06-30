@@ -1,4 +1,4 @@
-/* @tailwind base;
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
@@ -8,7 +8,8 @@
 }
 
 .inputSearch {
-  @apply font-medium text-lg font-sans w-full p-3 rounded-full bg-slate-200 text-left;
+  @apply font-medium text-lg font-sans w-full p-2 rounded-full border-2 border-stone-400 bg-slate-200 text-left
+  bg-white;
 }
 
 .btnSearch {
@@ -23,14 +24,14 @@
   .inputSearch {
     @apply text-base;
   }
-} */
+}
 
-@tailwind base;
+/* @tailwind base;
 @tailwind components;
-@tailwind utilities;
+@tailwind utilities; */
 
 
-.searchbar {
+/* .searchbar {
   @apply w-full max-w-sm relative;
 }
 
@@ -75,4 +76,4 @@
   .inputSearch {
     @apply text-base;
   }
-} 
+}  */

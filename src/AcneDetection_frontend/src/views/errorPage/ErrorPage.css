@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .container-error {
-    @apply flex items-center justify-center h-screen;
+    @apply flex items-center justify-center h-screen w-auto max-w-full;
 }
 
 .right-content {
@@ -15,7 +15,7 @@
 }
 
 .left-content {
-    @apply flex-1 text-end p-20
+    @apply flex-1 flex flex-col justify-center items-center text-center;
 }
 
 .left-content h1 {
@@ -38,7 +38,7 @@
         @apply flex items-center justify-center text-center;
     }
     .left-content {
-        @apply w-screen p-5
+        @apply w-screen p-5 justify-center items-center text-center;
     }
     .right-content img {
         @apply h-40 w-auto rounded-3xl;

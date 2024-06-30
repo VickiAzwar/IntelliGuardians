@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.imgDetectItem {
+    @apply flex flex-row  gap-5 justify-center items-center text-center border-solid mb-3 border-2 p-5 rounded-lg
+}
+
+.imgOriginal h3 {
+    @apply mb-2 font-bold text-lg;
+
+}
+
+.imgResult h3 {
+    @apply mb-2 font-bold text-lg;
+}
+
+.imgOriginal img {
+    @apply w-full max-w-[640px] max-h-[500px] rounded-lg;
+}
+
+.imgResult img {
+    @apply hidden sm:block w-full max-w-[640px] max-h-[500px] rounded-lg;
+}
+
+.imgResult canvas {
+    @apply absolute top-0 left-0 w-full h-full object-fill rounded-lg;
+}
+
+.contentResult {
+    @apply mt-4 text-base;
+}
+
+.itemResult {
+    @apply flex items-center;
+}
+
+@media only screen and (max-width: 768px) {
+
+    .imgDetectItem {
+        @apply flex flex-col gap-3;
+    }
+}

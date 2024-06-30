@@ -74,7 +74,15 @@ source env/bin/activate
 # Deploys your canisters to the replica and generates your candid interface
 dfx deploy
 ```
-4. Running frontend canister
+4. Insert data subcribes package
+```
+dfx canister call AcneDetection_backend insert_subscribe_packages
+```
+5. Install package frontend
+```
+npm install
+```
+6. Running frontend canister
 ```
 nmp run start
 ```

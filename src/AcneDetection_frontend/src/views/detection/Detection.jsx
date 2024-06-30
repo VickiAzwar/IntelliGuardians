@@ -27,7 +27,7 @@ const Detection = () => {
 
   const [dataUser, setDataUser] = useState(null);
   const [acneData, setAcneData] = useState(null);
-  
+
 
   const navigate = useNavigate();
 
@@ -55,7 +55,7 @@ const Detection = () => {
         inputShape: yolov8.inputs[0].shape,
       });
 
-      tf.dispose([warmupResults, dummyInput]);      
+      tf.dispose([warmupResults, dummyInput]);
     });
   }, []);
 
@@ -78,15 +78,11 @@ const Detection = () => {
     await HandleUploadToken(actor, dataUser, setDataUser, imageRef, model, canvasRef, setAcneData);
   };
 
-  const handleSaveDetect = async () => {
-
-  };
-
 
   return (
     <>
-      
-       {loading.loading && <Loaded text={`Model... ${(loading.progress * 100).toFixed(2)}%`} />}
+
+      {loading.loading && <Loaded text={`Model... ${(loading.progress * 100).toFixed(2)}%`} />}
       <Title text="Smart Acne Detection" />
       <ImgDetection
         imageRef={imageRef}
@@ -95,7 +91,6 @@ const Detection = () => {
         model={model}
         acneData={acneData}
         canvasRef={canvasRef}
-        handleSaveDetect={handleSaveDetect}
       />
 
       <div className="detection">
@@ -103,20 +98,24 @@ const Detection = () => {
           <h3>Input your image</h3>
           <p>The input image will not be saved</p>
           <p className="text-slate-500">Cost <span className="text-sky-600">{dataUser?.token ? dataUser.token : 0}</span> credit's to detection.</p>
-          
-          {dataUser?.status === '1' || dataUser?.token > 0 ? (
+
+          {(dataUser?.status === '1' || dataUser?.token > 0) && (
             <div className="button">
               <Camera imageRef={imageRef} setOriginalImage={setOriginalImage} />
               <Upload imageRef={imageRef} setOriginalImage={setOriginalImage} />
             </div>
-          ) : (
-            <div className="text-red-600">
-              <p>Insufficient credits for detection. Please purchase more credits.</p>
-              <Button red onClick={handlePremiumRedirect} className="flex gap-2 items-center justify-center text-base w-40 rounded-full">
-                Go to Premium
-              </Button>
-            </div>
           )}
+
+          {(dataUser?.status === '0' || dataUser?.token < 0) &&(
+             <div className="text-red-600">
+             <p>Insufficient credits for detection. Please purchase more credits.</p>
+             <Button red onClick={handlePremiumRedirect} className="flex gap-2 items-center justify-center text-base w-40 rounded-full">
+               Go to Premium
+             </Button>
+           </div>
+          )}
+
+         
 
           <ListItem />
 
